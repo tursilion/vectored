@@ -38,7 +38,7 @@
                              38 
    001E                      39 _crt0_init_data:				
    001E CE 00 8D      [ 3]   40 		ldu		#s_.text			
-   0021 33 C9 0E F4   [ 8]   41 		leau	l_.text,u			
+   0021 33 C9 10 F4   [ 8]   41 		leau	l_.text,u			
    0025 33 C9 00 00   [ 8]   42 		leau	l_.text.hot,u		
    0029 33 C9 00 00   [ 8]   43 		leau	l_.text.unlikely,u	
    002D 10 8E C8 80   [ 4]   44 		ldy		#s_.data			
@@ -53,7 +53,7 @@
                              53 
    003E                      54 _crt0_init_bss:				
    003E 10 8E C8 80   [ 4]   55 		ldy		#s_.bss				
-   0042 8E 00 81      [ 3]   56 		ldx		#l_.bss				
+   0042 8E 00 03      [ 3]   56 		ldx		#l_.bss				
    0045 27 06         [ 3]   57 		beq		_crt0_startup		
    0047                      58 _crt0_zero_bss:				
    0047 6F A0         [ 8]   59 		clr		,y+					

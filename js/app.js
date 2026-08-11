@@ -12,7 +12,7 @@
 
 const CMD = { RESET: 0, MOVE: 1, DRAW: 2, POINT: 3 };
 const DEFAULT_RESET_N = 7;   // re-zero the beam every N drawn vectors/dots
-const BRUTE_MAX = 12; // exhaustively optimise ordering up to this many strokes
+const BRUTE_MAX = 11; // exhaustively optimise ordering up to this many strokes
 
 function toInt8(v) {
   v = Math.round(v);
@@ -269,8 +269,84 @@ function insertResets(ops, resetN) {
   return out;
 }
 
-function buildExport(points, edges, gridW, gridH, coordMode, resetN = DEFAULT_RESET_N) {
+/* Merge runs of collinear edges into single edges before trail extraction, so
+ * a straight line made of several vectors draws as one.  At each vertex the two
+ * edges that continue straight through it (collinear, opposite directions) are
+ * paired; maximal straight runs are then traced end to end and replaced by one
+ * edge.  Interior pass-through vertices are dropped, but a junction vertex (its
+ * other, non-collinear edges survive) is kept — the merged vector just draws
+ * straight through it and the junction's own stroke still reaches it.  Points
+ * that were isolated to begin with are preserved (they draw as dots). */
+function contractCollinear(points, edges) {
+  const coord = new Map(points.map(p => [p.id, { x: p.x, y: p.y }]));
+  const adj = new Map(points.map(p => [p.id, []]));
+  const valid = [];
+  edges.forEach((e, i) => {
+    if (!coord.has(e.a) || !coord.has(e.b) || e.a === e.b) return;
+    adj.get(e.a).push({ to: e.b, e: i });
+    adj.get(e.b).push({ to: e.a, e: i });
+    valid.push(i);
+  });
+
+  // Pair collinear-opposite edges (a straight pass-through) at each vertex.
+  const pair = new Map();   // `${vertex}:${edgeIdx}` -> partner edgeIdx
+  for (const p of points) {
+    const v = p.id, cv = coord.get(v), list = adj.get(v);
+    const used = new Array(list.length).fill(false);
+    for (let i = 0; i < list.length; i++) {
+      if (used[i]) continue;
+      const ci = coord.get(list[i].to), dix = ci.x - cv.x, diy = ci.y - cv.y;
+      for (let j = i + 1; j < list.length; j++) {
+        if (used[j]) continue;
+        const cj = coord.get(list[j].to), djx = cj.x - cv.x, djy = cj.y - cv.y;
+        if (dix * djy - diy * djx === 0 && dix * djx + diy * djy < 0) {
+          used[i] = used[j] = true;
+          pair.set(v + ':' + list[i].e, list[j].e);
+          pair.set(v + ':' + list[j].e, list[i].e);
+          break;
+        }
+      }
+    }
+  }
+
+  // Trace maximal straight runs (start only from an open, unpaired end).
+  const other = (ei, v) => (edges[ei].a === v ? edges[ei].b : edges[ei].a);
+  const done = new Array(edges.length).fill(false);
+  const newEdges = [];
+  const trace = (startV, startE) => {
+    let v = startV, e = startE;
+    done[e] = true;
+    let far = other(e, v);
+    while (pair.has(far + ':' + e)) {
+      const ne = pair.get(far + ':' + e);
+      if (done[ne]) break;
+      done[ne] = true; v = far; e = ne; far = other(e, v);
+    }
+    newEdges.push({ a: startV, b: far });
+  };
+  for (const i of valid) {
+    if (done[i]) continue;
+    const e = edges[i];
+    if (!pair.has(e.a + ':' + i)) trace(e.a, i);
+    else if (!pair.has(e.b + ':' + i)) trace(e.b, i);
+    // else interior of a run: reached later from its open end
+  }
+  for (const i of valid)  // straight cycles (no open end): leave unmerged
+    if (!done[i]) { done[i] = true; newEdges.push({ a: edges[i].a, b: edges[i].b }); }
+
+  // Keep endpoints of the merged edges, plus points that started isolated.
+  const deg = new Map(points.map(p => [p.id, 0]));
+  for (const i of valid) { deg.set(edges[i].a, deg.get(edges[i].a) + 1); deg.set(edges[i].b, deg.get(edges[i].b) + 1); }
+  const referenced = new Set();
+  for (const ne of newEdges) { referenced.add(ne.a); referenced.add(ne.b); }
+  const keepPoints = points.filter(p => referenced.has(p.id) || deg.get(p.id) === 0);
+  return { points: keepPoints, edges: newEdges };
+}
+
+function buildExport(points, edges, gridW, gridH, coordMode, resetN = DEFAULT_RESET_N,
+                     mergeCollinear = true) {
   const cx = gridW >> 1, cy = gridH >> 1;
+  if (mergeCollinear) { const c = contractCollinear(points, edges); points = c.points; edges = c.edges; }
   const { trails, isolated, coord } = extractTrails(points, edges);
   const strokes = [];
   for (const t of trails) strokes.push({ kind: 'trail', pts: t.map(id => coord.get(id)) });
@@ -323,7 +399,7 @@ function disassemble(bytes, coordMode) {
 }
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { CMD, DEFAULT_RESET_N, extractTrails, optimizeStrokes, encodeRLE, insertResets, buildExport, disassemble, toInt8, fromInt8 };
+  module.exports = { CMD, DEFAULT_RESET_N, extractTrails, optimizeStrokes, encodeRLE, insertResets, contractCollinear, buildExport, disassemble, toInt8, fromInt8 };
 }
 
 /* ======================================================================
@@ -827,6 +903,7 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
   }
   function runExport() {
     const coordMode = $('#coordMode').value;
+    const mergeCollinear = $('#mergeCollinear').checked;
     let resetN = parseInt($('#resetN').value, 10);
     if (!Number.isFinite(resetN) || resetN < 0) resetN = 0;
     const cx = project.gridW >> 1, cy = project.gridH >> 1;
@@ -837,7 +914,7 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
       `   RESET (re-zero beam to origin) inserted every ${resetN || 'off'} drawn vectors/dots */\n\n`;
     let totalBytes = 0;
     project.objects.forEach((o, i) => {
-      const res = buildExport(o.points, o.edges, project.gridW, project.gridH, coordMode, resetN);
+      const res = buildExport(o.points, o.edges, project.gridW, project.gridH, coordMode, resetN, mergeCollinear);
       let id = cIdentifier(o.name, 'object_' + (i + 1)), base = id, n = 2;
       while (used.has(id)) id = base + '_' + (n++);
       used.add(id);
@@ -848,7 +925,7 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
     $('#hexOut').textContent = src;
     // disassembly of the active object for reference
     const ao = obj();
-    const ares = buildExport(ao.points, ao.edges, project.gridW, project.gridH, coordMode, resetN);
+    const ares = buildExport(ao.points, ao.edges, project.gridW, project.gridH, coordMode, resetN, mergeCollinear);
     $('#disOut').textContent =
       `; active object: ${ao.name}\n` + (disassemble(ares.bytes, coordMode, cx, cy) || '(empty)');
     $('#exportStats').textContent = `${project.objects.length} object(s) · ${totalBytes} bytes total`;
@@ -857,6 +934,7 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
   $('#exportBtn').addEventListener('click', runExport);
   $('#coordMode').addEventListener('change', runExport);
   $('#resetN').addEventListener('change', runExport);
+  $('#mergeCollinear').addEventListener('change', runExport);
   $('#closeExport').addEventListener('click', () => $('#exportPanel').classList.add('hidden'));
   $('#downloadBin').addEventListener('click', () => {
     downloadBlob(new Blob([lastExportSource], { type: 'text/plain' }), 'vectored.h');

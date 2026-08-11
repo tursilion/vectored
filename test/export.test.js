@@ -92,7 +92,8 @@ check('random graphs: every vector drawn exactly once, every point visited', () 
       eset.add(key); pairs.push([a, b]);
     }
     const { points, edges } = make(coords, pairs);
-    const res = buildExport(points, edges, 32, 32, 'absolute');
+    // merge off: this checks the exact Euler decomposition (one vector/edge)
+    const res = buildExport(points, edges, 32, 32, 'absolute', 7, false);
 
     // every edge drawn exactly once
     const counts = drawnEdgeCounts(res.ops);
@@ -111,7 +112,7 @@ console.log('\nencoding:');
 check('RLE command byte layout + roundtrip', () => {
   // polyline offset from centre => MOVE(1) to start + DRAW(3) run
   const { points, edges } = make([[18, 16], [19, 16], [20, 16], [21, 16]], [[0, 1], [1, 2], [2, 3]]);
-  const res = buildExport(points, edges, 32, 32, 'absolute');
+  const res = buildExport(points, edges, 32, 32, 'absolute', 0, false); // no merge: raw layout
   const b = res.bytes;
   // first byte: MOVE, count 1
   assert.strictEqual(b[0] >> 6, CMD.MOVE);
@@ -161,7 +162,7 @@ check('RESET re-zeros without changing geometry (renderer round-trip)', () => {
   const pairs = [];
   for (let i = 0; i < 9; i++) pairs.push([i, i + 1]);
   const { points, edges } = make(coords, pairs);
-  const res = buildExport(points, edges, 32, 32, 'absolute', 3);
+  const res = buildExport(points, edges, 32, 32, 'absolute', 3, false); // merge off: fixed vector count
 
   // Walk the bytes exactly as demo/render.c does (absolute offsets, +Y up).
   const b = res.bytes;
@@ -179,6 +180,58 @@ check('RESET re-zeros without changing geometry (renderer round-trip)', () => {
   // every original point (as a Vectrex centre offset) is reached
   for (const [x, y] of coords) assert.ok(visited.has((16 - y) + ',' + (x - 16)),
     'missing point ' + x + ',' + y);
+});
+
+check('relative export is native BIOS deltas (renderer round-trip)', () => {
+  // Same shape, relative mode: the demo renderer applies deltas with no pen
+  // tracking; a RESET returns the accumulator to the origin.
+  const coords = [];
+  for (let i = 0; i < 10; i++) coords.push([4 + i, 8 + (i % 3)]);
+  const pairs = [];
+  for (let i = 0; i < 9; i++) pairs.push([i, i + 1]);
+  const { points, edges } = make(coords, pairs);
+  const res = buildExport(points, edges, 32, 32, 'relative', 3, false); // merge off: fixed vector count
+
+  const b = res.bytes;
+  let i = 0, cy = 0, cx = 0, resets = 0;   // running absolute offset from centre
+  const visited = new Set();
+  while (i < b.length) {
+    const cmd = b[i++], op = cmd & 0xc0, count = cmd & 0x3f;
+    if (op === 0x00) { resets++; cy = 0; cx = 0; continue; }  // RESET -> origin
+    for (let k = 0; k < count; k++) {
+      cy += fromInt8(b[i++]); cx += fromInt8(b[i++]);         // apply delta
+      visited.add(cy + ',' + cx);
+    }
+  }
+  assert.ok(resets >= 2, 'expected RESET opcodes, got ' + resets);
+  for (const [x, y] of coords) assert.ok(visited.has((16 - y) + ',' + (x - 16)),
+    'missing point ' + x + ',' + y);
+});
+
+const drawCount = (res) => res.ops.filter(o => o.cmd === CMD.DRAW).length;
+
+check('collinear merge: straight polyline collapses to one vector', () => {
+  // four colinear points -> 3 edges; merged they draw as a single vector.
+  const { points, edges } = make([[10, 16], [12, 16], [14, 16], [16, 16]],
+                                  [[0, 1], [1, 2], [2, 3]]);
+  assert.strictEqual(drawCount(buildExport(points, edges, 32, 32, 'relative', 0, true)), 1);
+  assert.strictEqual(drawCount(buildExport(points, edges, 32, 32, 'relative', 0, false)), 3);
+});
+
+check('collinear merge: draws straight through a junction (3 -> 2)', () => {
+  // the bottom line (BL-BM-BR) is colinear; BM also carries a perpendicular
+  // up to T.  Merged: bottom is one vector, perpendicular is another = 2.
+  const BL = 0, BM = 1, BR = 2, T = 3;
+  const { points, edges } = make([[13, 20], [16, 20], [19, 20], [16, 14]],
+                                  [[BL, BM], [BM, BR], [BM, T]]);
+  assert.strictEqual(drawCount(buildExport(points, edges, 32, 32, 'relative', 0, true)), 2);
+  assert.strictEqual(drawCount(buildExport(points, edges, 32, 32, 'relative', 0, false)), 3);
+});
+
+check('collinear merge: a real corner is preserved', () => {
+  // right-angle: not colinear, so both edges survive whether merging or not.
+  const { points, edges } = make([[10, 16], [14, 16], [14, 20]], [[0, 1], [1, 2]]);
+  assert.strictEqual(drawCount(buildExport(points, edges, 32, 32, 'relative', 0, true)), 2);
 });
 
 check('coords stay within int8 for 256 grid corners', () => {

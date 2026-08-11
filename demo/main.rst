@@ -38,7 +38,7 @@
    00BD 86 05         [ 2]   38 	lda	#5	;umulqihi3
    00BF 3D            [11]   39 	mul
    00C0 1F 01         [ 6]   40 	tfr	d,x
-   00C2 31 89 0F 55   [ 8]   41 	leay	_shapeSets,x
+   00C2 31 89 11 55   [ 8]   41 	leay	_shapeSets,x
    00C6 F6 C8 81      [ 5]   42 	ldb	_shapeIdx
    00C9 86 05         [ 2]   43 	lda	#5	;umulqihi3
    00CB 3D            [11]   44 	mul
@@ -53,19 +53,19 @@
    00E0 10 2F 00 E3   [ 6]   53 	lble	L22
    00E4                      54 L3:
    00E4 C6 50         [ 2]   55 	ldb	#80
-   00E6 BD 0F 5F      [ 8]   56 	jsr	__Intensity_a
+   00E6 BD 11 5F      [ 8]   56 	jsr	__Intensity_a
    00E9 BD F3 54      [ 8]   57 	jsr	___Reset0Ref
    00EC C6 6E         [ 2]   58 	ldb	#110
    00EE E7 E2         [ 6]   59 	stb	,-s
    00F0 AE A4         [ 5]   60 	ldx	,y
    00F2 CB 24         [ 2]   61 	addb	#36
-   00F4 BD 0F 69      [ 8]   62 	jsr	__Print_Str_d
+   00F4 BD 11 69      [ 8]   62 	jsr	__Print_Str_d
    00F7 BD F3 54      [ 8]   63 	jsr	___Reset0Ref
    00FA C6 58         [ 2]   64 	ldb	#88
    00FC E7 E2         [ 6]   65 	stb	,-s
    00FE AE C4         [ 5]   66 	ldx	,u
    0100 CB 3A         [ 2]   67 	addb	#58
-   0102 BD 0F 69      [ 8]   68 	jsr	__Print_Str_d
+   0102 BD 11 69      [ 8]   68 	jsr	__Print_Str_d
    0105 F6 C8 1B      [ 5]   69 	ldb	-14309
    0108 E7 67         [ 5]   70 	stb	7,s
    010A 32 62         [ 5]   71 	leas	2,s
@@ -115,7 +115,7 @@
    0163 1E 01         [ 8]  115 	exg	d,x
    0165 E3 E4         [ 6]  116 	addd	,s; addhi3,3
    0167 1E 01         [ 8]  117 	exg	d,x
-   0169 E6 89 0F 59   [ 8]  118 	ldb	_shapeSets+4,x
+   0169 E6 89 11 59   [ 8]  118 	ldb	_shapeSets+4,x
    016D E7 68         [ 5]  119 	stb	8,s
    016F                     120 L10:
    016F 6A 68         [ 7]  121 	dec	8,s
@@ -145,7 +145,7 @@
    0198 1E 01         [ 8]  145 	exg	d,x
    019A E3 E4         [ 6]  146 	addd	,s; addhi3,3
    019C 1E 01         [ 8]  147 	exg	d,x
-   019E E6 89 0F 59   [ 8]  148 	ldb	_shapeSets+4,x
+   019E E6 89 11 59   [ 8]  148 	ldb	_shapeSets+4,x
    01A2 F7 C8 81      [ 5]  149 	stb	_shapeIdx
    01A5                     150 L7:
    01A5 7A C8 81      [ 7]  151 	dec	_shapeIdx
@@ -157,13 +157,13 @@
    01B1 1F 01         [ 6]  157 	tfr	d,x
    01B3 7C C8 81      [ 7]  158 	inc	_shapeIdx
    01B6 F6 C8 81      [ 5]  159 	ldb	_shapeIdx
-   01B9 E1 89 0F 59   [ 8]  160 	cmpb	_shapeSets+4,x	;cmpqi:
+   01B9 E1 89 11 59   [ 8]  160 	cmpb	_shapeSets+4,x	;cmpqi:
    01BD 10 25 FF 5A   [ 6]  161 	lblo	L5
    01C1 7F C8 81      [ 7]  162 	clr	_shapeIdx
    01C4 16 FF 54      [ 5]  163 	lbra	L5
    01C7                     164 L22:
    01C7 C6 7F         [ 2]  165 	ldb	#127
-   01C9 BD 0F 5F      [ 8]  166 	jsr	__Intensity_a
+   01C9 BD 11 5F      [ 8]  166 	jsr	__Intensity_a
    01CC F6 C8 82      [ 5]  167 	ldb	_scaleIdx
    01CF 4F            [ 2]  168 	clra		;zero_extendqihi: R:b -> R:d
    01D0 1F 01         [ 6]  169 	tfr	d,x
@@ -226,7 +226,7 @@
    0244 EE 62         [ 6]  226 	ldu	2,s
    0246 30 CB         [ 8]  227 	leax	d,u
    0248 E6 67         [ 5]  228 	ldb	7,s
-   024A E1 89 0F 59   [ 8]  229 	cmpb	_shapeSets+4,x	;cmpqi:
+   024A E1 89 11 59   [ 8]  229 	cmpb	_shapeSets+4,x	;cmpqi:
    024E 25 18         [ 3]  230 	blo	L13
    0250 7F C8 81      [ 7]  231 	clr	_shapeIdx
    0253 E6 66         [ 5]  232 	ldb	6,s

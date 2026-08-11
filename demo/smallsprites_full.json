@@ -2,7 +2,7 @@
   "gridW": 16,
   "gridH": 16,
   "scale": 50,
-  "activeIndex": 28,
+  "activeIndex": 41,
   "objects": [
     {
       "name": "Saucer",
@@ -11,58 +11,76 @@
         {
           "id": 1,
           "x": 5,
-          "y": 1
+          "y": 0
         },
         {
           "id": 2,
           "x": 11,
-          "y": 1
+          "y": 0
+        },
+        {
+          "id": 3,
+          "x": 15,
+          "y": 4
         },
         {
           "id": 4,
           "x": 15,
-          "y": 10
+          "y": 11
         },
         {
           "id": 5,
           "x": 11,
-          "y": 14
+          "y": 15
         },
         {
           "id": 6,
           "x": 5,
-          "y": 14
+          "y": 15
         },
         {
           "id": 7,
           "x": 1,
-          "y": 10
+          "y": 11
+        },
+        {
+          "id": 8,
+          "x": 1,
+          "y": 4
         },
         {
           "id": 9,
           "x": 7,
-          "y": 9
+          "y": 10
         },
         {
           "id": 10,
           "x": 9,
-          "y": 13
+          "y": 14
         },
         {
           "id": 11,
           "x": 7,
-          "y": 13
+          "y": 14
         },
         {
           "id": 12,
           "x": 9,
-          "y": 9
+          "y": 10
         }
       ],
       "edges": [
         {
           "a": 1,
           "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 3,
+          "b": 4
         },
         {
           "a": 4,
@@ -75,6 +93,14 @@
         {
           "a": 6,
           "b": 7
+        },
+        {
+          "a": 7,
+          "b": 8
+        },
+        {
+          "a": 8,
+          "b": 1
         },
         {
           "a": 9,
@@ -91,14 +117,6 @@
         {
           "a": 12,
           "b": 9
-        },
-        {
-          "a": 7,
-          "b": 1
-        },
-        {
-          "a": 2,
-          "b": 4
         }
       ],
       "bg": {
@@ -191,27 +209,97 @@
         },
         {
           "id": 2,
-          "x": 12,
-          "y": 3
+          "x": 13,
+          "y": 2
         },
         {
           "id": 3,
-          "x": 5,
+          "x": 7,
           "y": 15
         },
         {
           "id": 4,
-          "x": 5,
+          "x": 6,
           "y": 9
         },
         {
           "id": 5,
-          "x": 5,
+          "x": 7,
           "y": 13
         },
         {
           "id": 6,
-          "x": 7,
+          "x": 8,
+          "y": 10
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 3,
+          "b": 1
+        },
+        {
+          "a": 4,
+          "b": 5
+        },
+        {
+          "a": 5,
+          "b": 6
+        },
+        {
+          "a": 6,
+          "b": 4
+        }
+      ],
+      "bg": {
+        "name": "jet2.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAABJQTFRFAAAA2AEAogOBSSpbRwmHIQwjFZC8YgAAAGxJREFUeJwtyzkKgDAQheE3CXYWpvcO4lZLCm/gQdOLYJ8mFxFi7TJmsRk+ft4QAAX2IIiu4sNFaAKLNRV4sn95dgKGUGoT0CvGFsZYPE4bIXV+h2yr0kQUE29IaMgmYL72jPFyGcttMsQbzgfuJyERJakYJAAAAABJRU5ErkJggg==",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "Jet3",
+      "nextId": 7,
+      "points": [
+        {
+          "id": 1,
+          "x": 13,
+          "y": 1
+        },
+        {
+          "id": 2,
+          "x": 3,
+          "y": 2
+        },
+        {
+          "id": 3,
+          "x": 9,
+          "y": 15
+        },
+        {
+          "id": 4,
+          "x": 10,
+          "y": 9
+        },
+        {
+          "id": 5,
+          "x": 9,
+          "y": 13
+        },
+        {
+          "id": 6,
+          "x": 8,
           "y": 10
         }
       ],
@@ -2273,20 +2361,33 @@
         {
           "id": 1,
           "x": 5,
-          "y": 7
+          "y": 8
+        },
+        {
+          "id": 2,
+          "x": 8,
+          "y": 5
         },
         {
           "id": 3,
           "x": 8,
-          "y": 10
+          "y": 11
         },
         {
           "id": 4,
           "x": 11,
-          "y": 7
+          "y": 8
         }
       ],
       "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
         {
           "a": 3,
           "b": 4
@@ -2294,10 +2395,6 @@
         {
           "a": 4,
           "b": 1
-        },
-        {
-          "a": 1,
-          "b": 3
         }
       ],
       "bg": {
@@ -2306,7 +2403,7 @@
         "x": 0,
         "y": 0,
         "scale": 50,
-        "opacity": 0
+        "opacity": 0.5
       }
     },
     {
@@ -2407,12 +2504,32 @@
     },
     {
       "name": "pulse3",
-      "nextId": 13,
+      "nextId": 9,
       "points": [
+        {
+          "id": 1,
+          "x": 0,
+          "y": 7
+        },
+        {
+          "id": 2,
+          "x": 3,
+          "y": 4
+        },
+        {
+          "id": 3,
+          "x": 12,
+          "y": 4
+        },
+        {
+          "id": 4,
+          "x": 15,
+          "y": 7
+        },
         {
           "id": 5,
           "x": 0,
-          "y": 11
+          "y": 10
         },
         {
           "id": 6,
@@ -2427,15 +2544,106 @@
         {
           "id": 8,
           "x": 15,
-          "y": 11
-        },
-        {
-          "id": 12,
-          "x": 7,
-          "y": 7
+          "y": 10
         }
       ],
       "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 3,
+          "b": 4
+        },
+        {
+          "a": 5,
+          "b": 6
+        },
+        {
+          "a": 6,
+          "b": 7
+        },
+        {
+          "a": 7,
+          "b": 8
+        }
+      ],
+      "bg": {
+        "name": "pulse3.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAA9QTFRFAAAAtSmo+UX64xrqygPUStL/GgAAAEFJREFUeJxjZIACRiwMQTD9npFREcx4xygkAGb8Z1RiBLH+f2BUFgQz3jMqw9SYwNS47AEzXBgdDoAZLNisQGcAAJtgDFPpNLgHAAAAAElFTkSuQmCC",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "flame1",
+      "nextId": 9,
+      "points": [
+        {
+          "id": 1,
+          "x": 4,
+          "y": 0
+        },
+        {
+          "id": 2,
+          "x": 2,
+          "y": 2
+        },
+        {
+          "id": 3,
+          "x": 2,
+          "y": 5
+        },
+        {
+          "id": 4,
+          "x": 8,
+          "y": 11
+        },
+        {
+          "id": 5,
+          "x": 14,
+          "y": 5
+        },
+        {
+          "id": 6,
+          "x": 14,
+          "y": 2
+        },
+        {
+          "id": 7,
+          "x": 12,
+          "y": 0
+        },
+        {
+          "id": 8,
+          "x": 8,
+          "y": 5
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 3,
+          "b": 4
+        },
+        {
+          "a": 4,
+          "b": 5
+        },
         {
           "a": 5,
           "b": 6
@@ -2450,20 +2658,86 @@
         },
         {
           "a": 8,
-          "b": 12
-        },
-        {
-          "a": 12,
-          "b": 5
+          "b": 1
         }
       ],
       "bg": {
-        "name": "pulse3.png",
-        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAA9QTFRFAAAAtSmo+UX64xrqygPUStL/GgAAAEFJREFUeJxjZIACRiwMQTD9npFREcx4xygkAGb8Z1RiBLH+f2BUFgQz3jMqw9SYwNS47AEzXBgdDoAZLNisQGcAAJtgDFPpNLgHAAAAAElFTkSuQmCC",
+        "name": "flame1.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAA9QTFRFAAAAdWcg9cEr/Cgfn5QtX6Qr0AAAAFFJREFUeJyNyzEOgCAUA9DWOIsh7sR7uHByvAnEmRhuoP2wONrppWkJ7gDuRvhVeLKBrhm2RQjpA8aCqWqsCiFBYLxqM8C7jI75OAf0Guj5gxccHxUR51F6pwAAAABJRU5ErkJggg==",
         "x": 0,
         "y": 0,
         "scale": 50,
-        "opacity": 0.06
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "flame2",
+      "nextId": 9,
+      "points": [
+        {
+          "id": 1,
+          "x": 5,
+          "y": 0
+        },
+        {
+          "id": 2,
+          "x": 4,
+          "y": 3
+        },
+        {
+          "id": 4,
+          "x": 8,
+          "y": 6
+        },
+        {
+          "id": 6,
+          "x": 12,
+          "y": 3
+        },
+        {
+          "id": 7,
+          "x": 11,
+          "y": 0
+        },
+        {
+          "id": 8,
+          "x": 8,
+          "y": 1
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 6,
+          "b": 7
+        },
+        {
+          "a": 7,
+          "b": 8
+        },
+        {
+          "a": 8,
+          "b": 1
+        },
+        {
+          "a": 2,
+          "b": 4
+        },
+        {
+          "a": 4,
+          "b": 6
+        }
+      ],
+      "bg": {
+        "name": "flame2.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAgMAAABinRfyAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAxQTFRFAAAAdWcg9cErn5Qt2uqsagAAAC1JREFUeJxjZMiyD2dkeHUwFEqAuVZFIYwMctN8GBnYTxowMjDaH2BkAAIiCABqNgoRa1gvjQAAAABJRU5ErkJggg==",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
       }
     },
     {
@@ -2787,17 +3061,37 @@
         },
         {
           "id": 3,
-          "x": 8,
+          "x": 7,
           "y": 12
         },
         {
           "id": 4,
-          "x": 4,
-          "y": 8
+          "x": 3,
+          "y": 6
         },
         {
           "id": 5,
           "x": 8,
+          "y": 3
+        },
+        {
+          "id": 6,
+          "x": 4,
+          "y": 3
+        },
+        {
+          "id": 7,
+          "x": 4,
+          "y": 10
+        },
+        {
+          "id": 8,
+          "x": 11,
+          "y": 11
+        },
+        {
+          "id": 9,
+          "x": 11,
           "y": 4
         }
       ],
@@ -2819,8 +3113,20 @@
           "b": 5
         },
         {
-          "a": 4,
-          "b": 2
+          "a": 6,
+          "b": 7
+        },
+        {
+          "a": 7,
+          "b": 8
+        },
+        {
+          "a": 8,
+          "b": 9
+        },
+        {
+          "a": 9,
+          "b": 6
         }
       ],
       "bg": {
@@ -2934,371 +3240,6 @@
         "y": 0,
         "scale": 50,
         "opacity": 0.39
-      }
-    },
-    {
-      "name": "PowerupP",
-      "nextId": 12,
-      "points": [
-        {
-          "id": 1,
-          "x": 5,
-          "y": 3
-        },
-        {
-          "id": 2,
-          "x": 11,
-          "y": 6
-        },
-        {
-          "id": 3,
-          "x": 5,
-          "y": 8
-        },
-        {
-          "id": 4,
-          "x": 5,
-          "y": 13
-        },
-        {
-          "id": 5,
-          "x": 3,
-          "y": 2
-        },
-        {
-          "id": 7,
-          "x": 0,
-          "y": 8
-        },
-        {
-          "id": 8,
-          "x": 15,
-          "y": 8
-        },
-        {
-          "id": 9,
-          "x": 12,
-          "y": 14
-        },
-        {
-          "id": 10,
-          "x": 12,
-          "y": 2
-        },
-        {
-          "id": 11,
-          "x": 3,
-          "y": 14
-        }
-      ],
-      "edges": [
-        {
-          "a": 1,
-          "b": 2
-        },
-        {
-          "a": 2,
-          "b": 3
-        },
-        {
-          "a": 3,
-          "b": 1
-        },
-        {
-          "a": 1,
-          "b": 4
-        },
-        {
-          "a": 8,
-          "b": 9
-        },
-        {
-          "a": 10,
-          "b": 8
-        },
-        {
-          "a": 5,
-          "b": 7
-        },
-        {
-          "a": 11,
-          "b": 7
-        }
-      ],
-      "bg": {
-        "name": null,
-        "dataURL": null,
-        "x": 0,
-        "y": 0,
-        "scale": 1,
-        "opacity": 0.5
-      }
-    },
-    {
-      "name": "PowerupW",
-      "nextId": 15,
-      "points": [
-        {
-          "id": 1,
-          "x": 3,
-          "y": 4
-        },
-        {
-          "id": 4,
-          "x": 5,
-          "y": 13
-        },
-        {
-          "id": 5,
-          "x": 3,
-          "y": 2
-        },
-        {
-          "id": 7,
-          "x": 0,
-          "y": 8
-        },
-        {
-          "id": 8,
-          "x": 15,
-          "y": 8
-        },
-        {
-          "id": 9,
-          "x": 12,
-          "y": 14
-        },
-        {
-          "id": 10,
-          "x": 12,
-          "y": 2
-        },
-        {
-          "id": 11,
-          "x": 3,
-          "y": 14
-        },
-        {
-          "id": 12,
-          "x": 7,
-          "y": 8
-        },
-        {
-          "id": 13,
-          "x": 9,
-          "y": 13
-        },
-        {
-          "id": 14,
-          "x": 11,
-          "y": 4
-        }
-      ],
-      "edges": [
-        {
-          "a": 1,
-          "b": 4
-        },
-        {
-          "a": 8,
-          "b": 9
-        },
-        {
-          "a": 10,
-          "b": 8
-        },
-        {
-          "a": 5,
-          "b": 7
-        },
-        {
-          "a": 11,
-          "b": 7
-        },
-        {
-          "a": 12,
-          "b": 4
-        },
-        {
-          "a": 12,
-          "b": 13
-        },
-        {
-          "a": 13,
-          "b": 14
-        }
-      ],
-      "bg": {
-        "name": null,
-        "dataURL": null,
-        "x": 0,
-        "y": 0,
-        "scale": 1,
-        "opacity": 0.5
-      }
-    },
-    {
-      "name": "PowerupS",
-      "nextId": 18,
-      "points": [
-        {
-          "id": 5,
-          "x": 3,
-          "y": 2
-        },
-        {
-          "id": 7,
-          "x": 0,
-          "y": 8
-        },
-        {
-          "id": 8,
-          "x": 15,
-          "y": 8
-        },
-        {
-          "id": 9,
-          "x": 12,
-          "y": 14
-        },
-        {
-          "id": 10,
-          "x": 12,
-          "y": 2
-        },
-        {
-          "id": 11,
-          "x": 3,
-          "y": 14
-        },
-        {
-          "id": 14,
-          "x": 11,
-          "y": 4
-        },
-        {
-          "id": 15,
-          "x": 4,
-          "y": 6
-        },
-        {
-          "id": 16,
-          "x": 11,
-          "y": 10
-        },
-        {
-          "id": 17,
-          "x": 4,
-          "y": 13
-        }
-      ],
-      "edges": [
-        {
-          "a": 8,
-          "b": 9
-        },
-        {
-          "a": 10,
-          "b": 8
-        },
-        {
-          "a": 5,
-          "b": 7
-        },
-        {
-          "a": 11,
-          "b": 7
-        },
-        {
-          "a": 14,
-          "b": 15
-        },
-        {
-          "a": 15,
-          "b": 16
-        },
-        {
-          "a": 16,
-          "b": 17
-        }
-      ],
-      "bg": {
-        "name": null,
-        "dataURL": null,
-        "x": 0,
-        "y": 0,
-        "scale": 1,
-        "opacity": 0.5
-      }
-    },
-    {
-      "name": "Jet3",
-      "nextId": 7,
-      "points": [
-        {
-          "id": 1,
-          "x": 12,
-          "y": 1
-        },
-        {
-          "id": 2,
-          "x": 3,
-          "y": 3
-        },
-        {
-          "id": 3,
-          "x": 10,
-          "y": 15
-        },
-        {
-          "id": 4,
-          "x": 10,
-          "y": 9
-        },
-        {
-          "id": 5,
-          "x": 10,
-          "y": 13
-        },
-        {
-          "id": 6,
-          "x": 8,
-          "y": 10
-        }
-      ],
-      "edges": [
-        {
-          "a": 1,
-          "b": 2
-        },
-        {
-          "a": 2,
-          "b": 3
-        },
-        {
-          "a": 3,
-          "b": 1
-        },
-        {
-          "a": 4,
-          "b": 5
-        },
-        {
-          "a": 5,
-          "b": 6
-        },
-        {
-          "a": 6,
-          "b": 4
-        }
-      ],
-      "bg": {
-        "name": "jet2.png",
-        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAABJQTFRFAAAA2AEAogOBSSpbRwmHIQwjFZC8YgAAAGxJREFUeJwtyzkKgDAQheE3CXYWpvcO4lZLCm/gQdOLYJ8mFxFi7TJmsRk+ft4QAAX2IIiu4sNFaAKLNRV4sn95dgKGUGoT0CvGFsZYPE4bIXV+h2yr0kQUE29IaMgmYL72jPFyGcttMsQbzgfuJyERJakYJAAAAABJRU5ErkJggg==",
-        "x": 0,
-        "y": 0,
-        "scale": 50,
-        "opacity": 0.5
       }
     }
   ]

@@ -113,12 +113,14 @@
     <h3>Export</h3>
     <label class="ctl inline"><span>Coordinates</span>
       <select id="coordMode">
-        <option value="absolute" selected>Absolute (from centre)</option>
-        <option value="relative">Relative (delta)</option>
+        <option value="relative" selected>Relative (delta, ready to draw)</option>
+        <option value="absolute">Absolute (from centre)</option>
       </select></label>
     <label class="ctl inline"><span>Reset every</span>
       <input id="resetN" type="number" min="0" max="63" step="1" value="7">
     </label>
+    <label class="ctl inline"><input id="mergeCollinear" type="checkbox" checked>
+      <span>Merge collinear</span></label>
     <span id="exportStats" class="muted"></span>
     <span class="spacer"></span>
     <button id="downloadBin" class="accent">Download .h</button>
