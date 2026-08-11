@@ -125,22 +125,60 @@ check('RLE command byte layout + roundtrip', () => {
   assert.strictEqual(drawByte & 0x3f, 3);
 });
 
-check('point exactly on centre needs no leading MOVE', () => {
-  // first point is the centre -> exporter starts drawing immediately
+check('first stroke always emits a leading MOVE from the origin', () => {
+  // even when the first point is the centre, drawing starts with a MOVE(0,0)
+  // so the beam leaves the zero reference settled.
   const { points, edges } = make([[16, 16], [17, 16], [18, 16]], [[0, 1], [1, 2]]);
-  const res = buildExport(points, edges, 32, 32, 'absolute');
-  assert.strictEqual(res.bytes[0] >> 6, CMD.DRAW);
+  const res = buildExport(points, edges, 32, 32, 'absolute', 0);
+  assert.strictEqual(res.bytes[0] >> 6, CMD.MOVE);
+  assert.strictEqual(res.bytes[0] & 0x3f, 1);
+  assert.strictEqual(fromInt8(res.bytes[1]), 0); // Y offset 0 (at centre)
+  assert.strictEqual(fromInt8(res.bytes[2]), 0); // X offset 0
 });
 
-check('relative coords roundtrip via disassembly', () => {
-  // start point offset from centre so a MOVE carries it; chain the rest
+check('Y axis is flipped to Vectrex orientation (+Y up)', () => {
+  // grid y above centre (smaller) exports as positive Y; below as negative.
+  const { points, edges } = make([[16, 12], [16, 20]], [[0, 1]]);
+  const res = buildExport(points, edges, 32, 32, 'absolute', 0);
+  const dis = disassemble(res.bytes, 'absolute');
+  assert.ok(dis.includes('(4,0)'), dis);   // grid y=12 -> +4
+  assert.ok(dis.includes('(-4,0)'), dis);  // grid y=20 -> -4
+});
+
+check('relative coords roundtrip via disassembly (centre offsets, flipped Y)', () => {
   const { points, edges } = make([[20, 18], [22, 18], [22, 21]], [[0, 1], [1, 2]]);
-  const res = buildExport(points, edges, 32, 32, 'relative');
-  // reconstruct with the known centre (16,16); disassembly is absolute (y,x)
-  const dis = disassemble(res.bytes, 'relative', 16, 16);
-  assert.ok(dis.includes('(18,20)'), dis); // MOVE to (x=20,y=18)
-  assert.ok(dis.includes('(18,22)'), dis); // DRAW
-  assert.ok(dis.includes('(21,22)'), dis); // DRAW
+  const res = buildExport(points, edges, 32, 32, 'relative', 0);
+  const dis = disassemble(res.bytes, 'relative');
+  assert.ok(dis.includes('(-2,4)'), dis);  // MOVE  (x=20,y=18) -> off (16-18,20-16)
+  assert.ok(dis.includes('(-2,6)'), dis);  // DRAW  (x=22,y=18)
+  assert.ok(dis.includes('(-5,6)'), dis);  // DRAW  (x=22,y=21)
+});
+
+check('RESET re-zeros without changing geometry (renderer round-trip)', () => {
+  // 10-point polyline; with resetN=3 several RESET opcodes fire mid-stroke.
+  const coords = [];
+  for (let i = 0; i < 10; i++) coords.push([4 + i, 8 + (i % 3)]);
+  const pairs = [];
+  for (let i = 0; i < 9; i++) pairs.push([i, i + 1]);
+  const { points, edges } = make(coords, pairs);
+  const res = buildExport(points, edges, 32, 32, 'absolute', 3);
+
+  // Walk the bytes exactly as demo/render.c does (absolute offsets, +Y up).
+  const b = res.bytes;
+  let i = 0, cy = 0, cx = 0, resets = 0;
+  const visited = new Set();
+  while (i < b.length) {
+    const cmd = b[i++], op = cmd & 0xc0, count = cmd & 0x3f;
+    if (op === 0x00) { resets++; cy = 0; cx = 0; continue; }
+    for (let k = 0; k < count; k++) {
+      cy = fromInt8(b[i++]); cx = fromInt8(b[i++]);   // absolute offset from centre
+      visited.add(cy + ',' + cx);
+    }
+  }
+  assert.ok(resets >= 2, 'expected multiple RESET opcodes, got ' + resets);
+  // every original point (as a Vectrex centre offset) is reached
+  for (const [x, y] of coords) assert.ok(visited.has((16 - y) + ',' + (x - 16)),
+    'missing point ' + x + ',' + y);
 });
 
 check('coords stay within int8 for 256 grid corners', () => {

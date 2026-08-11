@@ -10,8 +10,9 @@
  * PART 1 — PURE EXPORT LOGIC
  * ==================================================================== */
 
-const CMD = { UNDEF: 0, MOVE: 1, DRAW: 2, POINT: 3 };
-const BRUTE_MAX = 9; // exhaustively optimise ordering up to this many strokes
+const CMD = { RESET: 0, MOVE: 1, DRAW: 2, POINT: 3 };
+const DEFAULT_RESET_N = 7;   // re-zero the beam every N drawn vectors/dots
+const BRUTE_MAX = 12; // exhaustively optimise ordering up to this many strokes
 
 function toInt8(v) {
   v = Math.round(v);
@@ -217,19 +218,27 @@ function optimizeStrokes(strokes, origin) {
 }
 
 function encodeRLE(ops, cx, cy, coordMode) {
+  // Y is negated on the way out: grid space is +Y down, the Vectrex is +Y up.
   const bytes = [];
   let px = cx, py = cy;
   let i = 0;
   while (i < ops.length) {
     const cmd = ops[i].cmd;
+    if (cmd === CMD.RESET) {
+      // RESET carries no operands; the beam is back at the object origin.
+      bytes.push(CMD.RESET << 6);
+      px = cx; py = cy;
+      i++;
+      continue;
+    }
     let j = i;
     while (j < ops.length && ops[j].cmd === cmd && (j - i) < 63) j++;
     bytes.push((cmd << 6) | (j - i));
     for (let k = i; k < j; k++) {
       const o = ops[k];
       let Y, X;
-      if (coordMode === 'relative') { Y = o.y - py; X = o.x - px; py = o.y; px = o.x; }
-      else { Y = o.y - cy; X = o.x - cx; }
+      if (coordMode === 'relative') { Y = py - o.y; X = o.x - px; py = o.y; px = o.x; }
+      else { Y = cy - o.y; X = o.x - cx; }
       bytes.push(toInt8(Y), toInt8(X));
     }
     i = j;
@@ -237,7 +246,30 @@ function encodeRLE(ops, cx, cy, coordMode) {
   return bytes;
 }
 
-function buildExport(points, edges, gridW, gridH, coordMode) {
+/* Insert a RESET (+ a MOVE back to the resume point) after every resetN drawn
+ * vectors/dots, so the renderer can re-zero the beam and shed accumulated
+ * integrator drift.  MOVEs don't count toward the tally. */
+function insertResets(ops, resetN) {
+  if (!resetN || resetN <= 0) return ops.slice();
+  const out = [];
+  let drawn = 0, pen = null;
+  for (let idx = 0; idx < ops.length; idx++) {
+    const op = ops[idx];
+    out.push(op);
+    if (op.cmd === CMD.MOVE || op.cmd === CMD.DRAW || op.cmd === CMD.POINT)
+      pen = { x: op.x, y: op.y };
+    if (op.cmd === CMD.DRAW || op.cmd === CMD.POINT) {
+      if (++drawn >= resetN && idx < ops.length - 1) {
+        out.push({ cmd: CMD.RESET });
+        out.push({ cmd: CMD.MOVE, x: pen.x, y: pen.y });   // move back from origin
+        drawn = 0;
+      }
+    }
+  }
+  return out;
+}
+
+function buildExport(points, edges, gridW, gridH, coordMode, resetN = DEFAULT_RESET_N) {
   const cx = gridW >> 1, cy = gridH >> 1;
   const { trails, isolated, coord } = extractTrails(points, edges);
   const strokes = [];
@@ -254,28 +286,36 @@ function buildExport(points, edges, gridW, gridH, coordMode) {
       cur = stroke.pt;
     } else {
       const seq = orient ? stroke.pts.slice().reverse() : stroke.pts;
-      if (cur.x !== seq[0].x || cur.y !== seq[0].y)
+      // Always emit the leading MOVE for the first stroke so drawing starts
+      // from the object origin (centre) with the integrators settled, even
+      // when the trail happens to begin at the centre.
+      if (ops.length === 0 || cur.x !== seq[0].x || cur.y !== seq[0].y)
         ops.push({ cmd: CMD.MOVE, x: seq[0].x, y: seq[0].y });
       for (let k = 1; k < seq.length; k++) ops.push({ cmd: CMD.DRAW, x: seq[k].x, y: seq[k].y });
       cur = seq[seq.length - 1];
     }
   }
-  const bytes = encodeRLE(ops, cx, cy, coordMode);
-  return { bytes, ops, trails, isolated };
+  const withResets = insertResets(ops, resetN);
+  const bytes = encodeRLE(withResets, cx, cy, coordMode);
+  return { bytes, ops: withResets, trails, isolated };
 }
 
-function disassemble(bytes, coordMode, cx = 0, cy = 0) {
-  const name = { 0: 'UNDEF', 1: 'MOVE', 2: 'DRAW', 3: 'POINT' };
+function disassemble(bytes, coordMode) {
+  // Reports (Y,X) as signed offsets from the object centre, in Vectrex
+  // orientation (+Y up) — the same values the renderer tracks.  A RESET
+  // returns to the origin (0,0).
+  const name = { 0: 'RESET', 1: 'MOVE', 2: 'DRAW', 3: 'POINT' };
   const lines = [];
-  let i = 0, px = cx, py = cy;
+  let i = 0, oy = 0, ox = 0;
   while (i < bytes.length) {
     const b = bytes[i++];
     const cmd = b >> 6, count = b & 0x3f;
+    if (cmd === CMD.RESET) { oy = 0; ox = 0; lines.push('RESET'); continue; }
     const parts = [];
     for (let k = 0; k < count && i + 1 < bytes.length; k++) {
       const Y = fromInt8(bytes[i++]), X = fromInt8(bytes[i++]);
-      if (coordMode === 'relative') { px += X; py += Y; parts.push(`(${py},${px})`); }
-      else parts.push(`(${Y},${X})`);
+      if (coordMode === 'relative') { oy += Y; ox += X; } else { oy = Y; ox = X; }
+      parts.push(`(${oy},${ox})`);
     }
     lines.push(`${name[cmd]} x${count}  ${parts.join(' ')}`);
   }
@@ -283,7 +323,7 @@ function disassemble(bytes, coordMode, cx = 0, cy = 0) {
 }
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { CMD, extractTrails, optimizeStrokes, encodeRLE, buildExport, disassemble, toInt8, fromInt8 };
+  module.exports = { CMD, DEFAULT_RESET_N, extractTrails, optimizeStrokes, encodeRLE, insertResets, buildExport, disassemble, toInt8, fromInt8 };
 }
 
 /* ======================================================================
@@ -316,6 +356,25 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
     return { gridW: 64, gridH: 64, scale: 10, activeIndex: 0, objects: [newObject('Object 1')] };
   }
   function obj() { return project.objects[project.activeIndex]; }
+
+  /* ---- undo (whole-project snapshots, 10 levels) ---- */
+  const UNDO_LIMIT = 10;
+  let undoStack = [];
+  let coalesceKey = null; // groups a continuous gesture into one undo entry
+  function pushUndo(key) {
+    if (key && key === coalesceKey) return; // already snapshotted this gesture
+    undoStack.push(JSON.stringify(project));
+    if (undoStack.length > UNDO_LIMIT) undoStack.shift();
+    coalesceKey = key || null;
+  }
+  function undo() {
+    if (!undoStack.length) return;
+    project = JSON.parse(undoStack.pop());
+    coalesceKey = null; drag = null; lastPointId = null; hover = null;
+    project.activeIndex = Math.min(project.activeIndex || 0, project.objects.length - 1);
+    $('#gridW').value = project.gridW; $('#gridH').value = project.gridH; $('#scale').value = project.scale;
+    refreshObjSelect(); syncBgInputs(); resizeCanvas(); redraw();
+  }
 
   /* ---- coordinate helpers ---- */
   const g2s = c => c * project.scale;
@@ -463,10 +522,12 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
     const { mx, my } = mousePos(e);
     const o = obj();
     if (bgEdit) {
+      pushUndo();
       drag = { type: 'bg', sx: mx, sy: my, ox: o.bg.x, oy: o.bg.y };
       return;
     }
     if (mode === 'line' || mode === 'point') {
+      pushUndo();
       const gx = clampCoord(s2g(mx), project.gridW);
       const gy = clampCoord(s2g(my), project.gridH);
       let p = pointAt(o, gx, gy);
@@ -479,10 +540,10 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
       }
     } else if (mode === 'move') {
       const p = nearestPoint(o, mx, my);
-      if (p) drag = { type: 'point', id: p.id };
+      if (p) { pushUndo(); drag = { type: 'point', id: p.id }; }
     } else if (mode === 'remove') {
       const p = nearestPoint(o, mx, my);
-      if (p) removePoint(o, p);
+      if (p) { pushUndo(); removePoint(o, p); }
     }
     redraw();
   });
@@ -507,7 +568,7 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
     if (id !== hover) { hover = id; redraw(); }
   });
 
-  window.addEventListener('mouseup', () => { drag = null; });
+  window.addEventListener('mouseup', () => { drag = null; coalesceKey = null; });
 
   // right-click breaks the current line chain (start a disconnected polyline)
   canvas.addEventListener('contextmenu', e => { e.preventDefault(); lastPointId = null; redraw(); });
@@ -515,6 +576,7 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
   canvas.addEventListener('wheel', e => {
     if (!bgEdit) return;
     e.preventDefault();
+    pushUndo('bg');
     const o = obj();
     const f = e.deltaY < 0 ? 1.05 : 1 / 1.05;
     o.bg.scale = Math.max(0.02, Math.min(100, o.bg.scale * f));
@@ -535,10 +597,12 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
   });
 
   $('#gridW').addEventListener('change', e => {
+    pushUndo();
     project.gridW = Math.max(2, Math.min(256, parseInt(e.target.value) || 64));
     e.target.value = project.gridW; resizeCanvas(); redraw();
   });
   $('#gridH').addEventListener('change', e => {
+    pushUndo();
     project.gridH = Math.max(2, Math.min(256, parseInt(e.target.value) || 64));
     e.target.value = project.gridH; resizeCanvas(); redraw();
   });
@@ -580,23 +644,26 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
     lastPointId = null; hover = null; syncBgInputs(); redraw();
   });
   $('#objAdd').addEventListener('click', () => {
+    pushUndo();
     project.objects.push(newObject('Object ' + (project.objects.length + 1)));
     project.activeIndex = project.objects.length - 1;
     lastPointId = null; refreshObjSelect(); syncBgInputs(); redraw();
   });
   $('#objDel').addEventListener('click', () => {
     if (project.objects.length <= 1) return;
+    pushUndo();
     project.objects.splice(project.activeIndex, 1);
     project.activeIndex = Math.max(0, project.activeIndex - 1);
     lastPointId = null; refreshObjSelect(); syncBgInputs(); redraw();
   });
   $('#objRename').addEventListener('click', () => {
     const name = prompt('Object name:', obj().name);
-    if (name) { obj().name = name; refreshObjSelect(); }
+    if (name) { pushUndo(); obj().name = name; refreshObjSelect(); }
   });
 
   /* ---- object transforms ---- */
   function duplicateActive() {
+    pushUndo();
     const copy = JSON.parse(JSON.stringify(obj())); // clones geometry + PNG ref
     copy.name = obj().name + ' copy';
     project.objects.push(copy);
@@ -615,6 +682,7 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
   function flipObject(horizontal) {
     const o = obj();
     if (!o.points.length) return;
+    pushUndo();
     const b = bbox(o);
     if (horizontal) { const s = b.minX + b.maxX; for (const p of o.points) p.x = s - p.x; }
     else { const s = b.minY + b.maxY; for (const p of o.points) p.y = s - p.y; }
@@ -630,6 +698,7 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
     if (dy > 0) dy = Math.min(dy, (project.gridH - 1) - b.maxY);
     if (dy < 0) dy = Math.max(dy, -b.minY);
     if (!dx && !dy) return;
+    pushUndo('shift');
     for (const p of o.points) { p.x += dx; p.y += dy; }
     redraw();
   }
@@ -648,6 +717,7 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
     if (!file) return;
     const reader = new FileReader();
     reader.onload = () => {
+      pushUndo();
       const o = obj();
       o.bg.dataURL = reader.result;
       o.bg.name = file.name;
@@ -661,6 +731,7 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
     const o = obj();
     const img = getBgImage(o);
     if (!img) { alert('Load a PNG first.'); return; }
+    pushUndo();
     const gridPxW = project.gridW * project.scale, gridPxH = project.gridH * project.scale;
     // uniform scale that fits the image entirely within the grid, then centre it
     const s = Math.min(gridPxW / img.naturalWidth, gridPxH / img.naturalHeight);
@@ -681,10 +752,10 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
     $('#pngName').textContent = b.name || 'no image';
   }
   $('#bgEdit').addEventListener('change', e => { bgEdit = e.target.checked; canvas.style.cursor = bgEdit ? 'move' : 'crosshair'; });
-  $('#bgOpacity').addEventListener('input', e => { obj().bg.opacity = parseFloat(e.target.value); redraw(); });
-  $('#bgScale').addEventListener('input', e => { obj().bg.scale = parseFloat(e.target.value); redraw(); });
-  $('#bgX').addEventListener('input', e => { obj().bg.x = parseFloat(e.target.value) || 0; redraw(); });
-  $('#bgY').addEventListener('input', e => { obj().bg.y = parseFloat(e.target.value) || 0; redraw(); });
+  $('#bgOpacity').addEventListener('input', e => { pushUndo('bg'); obj().bg.opacity = parseFloat(e.target.value); redraw(); });
+  $('#bgScale').addEventListener('input', e => { pushUndo('bg'); obj().bg.scale = parseFloat(e.target.value); redraw(); });
+  $('#bgX').addEventListener('input', e => { pushUndo('bg'); obj().bg.x = parseFloat(e.target.value) || 0; redraw(); });
+  $('#bgY').addEventListener('input', e => { pushUndo('bg'); obj().bg.y = parseFloat(e.target.value) || 0; redraw(); });
 
   /* ---- stats ---- */
   function updateStats() {
@@ -710,6 +781,7 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
       try {
         const data = JSON.parse(reader.result);
         if (!data.objects || !data.objects.length) throw new Error('no objects');
+        pushUndo();
         // fill missing bg fields for forward-compat
         data.objects.forEach(o => {
           o.bg = Object.assign({ name: null, dataURL: null, x: 0, y: 0, scale: 1, opacity: 0.5 }, o.bg || {});
@@ -755,14 +827,17 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
   }
   function runExport() {
     const coordMode = $('#coordMode').value;
+    let resetN = parseInt($('#resetN').value, 10);
+    if (!Number.isFinite(resetN) || resetN < 0) resetN = 0;
     const cx = project.gridW >> 1, cy = project.gridH >> 1;
     const used = new Set();
     let src = `/* Vectored export — grid ${project.gridW}x${project.gridH}, origin (centre) ${cx},${cy}\n` +
-      `   coords: ${coordMode === 'relative' ? 'signed Y,X deltas from previous point' : 'signed Y,X offsets from centre'}\n` +
-      `   command byte: bits 7-6 = 01 MOVE / 10 DRAW / 11 POINT, bits 5-0 = following Y,X pair count */\n\n`;
+      `   coords: ${coordMode === 'relative' ? 'signed Y,X deltas from previous point' : 'signed Y,X offsets from centre'} (Vectrex orientation, +Y up)\n` +
+      `   command byte: bits 7-6 = 00 RESET / 01 MOVE / 10 DRAW / 11 POINT, bits 5-0 = following Y,X pair count\n` +
+      `   RESET (re-zero beam to origin) inserted every ${resetN || 'off'} drawn vectors/dots */\n\n`;
     let totalBytes = 0;
     project.objects.forEach((o, i) => {
-      const res = buildExport(o.points, o.edges, project.gridW, project.gridH, coordMode);
+      const res = buildExport(o.points, o.edges, project.gridW, project.gridH, coordMode, resetN);
       let id = cIdentifier(o.name, 'object_' + (i + 1)), base = id, n = 2;
       while (used.has(id)) id = base + '_' + (n++);
       used.add(id);
@@ -773,7 +848,7 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
     $('#hexOut').textContent = src;
     // disassembly of the active object for reference
     const ao = obj();
-    const ares = buildExport(ao.points, ao.edges, project.gridW, project.gridH, coordMode);
+    const ares = buildExport(ao.points, ao.edges, project.gridW, project.gridH, coordMode, resetN);
     $('#disOut').textContent =
       `; active object: ${ao.name}\n` + (disassemble(ares.bytes, coordMode, cx, cy) || '(empty)');
     $('#exportStats').textContent = `${project.objects.length} object(s) · ${totalBytes} bytes total`;
@@ -781,6 +856,7 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
   }
   $('#exportBtn').addEventListener('click', runExport);
   $('#coordMode').addEventListener('change', runExport);
+  $('#resetN').addEventListener('change', runExport);
   $('#closeExport').addEventListener('click', () => $('#exportPanel').classList.add('hidden'));
   $('#downloadBin').addEventListener('click', () => {
     downloadBlob(new Blob([lastExportSource], { type: 'text/plain' }), 'vectored.h');
@@ -788,6 +864,7 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
 
   /* ---- keyboard shortcuts ---- */
   window.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && (e.key === 'z' || e.key === 'Z')) { e.preventDefault(); undo(); return; }
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
     if (e.key === 'Escape') { lastPointId = null; redraw(); return; }
     const shifts = { ArrowUp: [0, -1], ArrowDown: [0, 1], ArrowLeft: [-1, 0], ArrowRight: [1, 0] };

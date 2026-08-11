@@ -1,0 +1,3246 @@
+{
+  "gridW": 16,
+  "gridH": 16,
+  "scale": 50,
+  "activeIndex": 41,
+  "objects": [
+    {
+      "name": "Saucer",
+      "nextId": 13,
+      "points": [
+        {
+          "id": 1,
+          "x": 5,
+          "y": 0
+        },
+        {
+          "id": 2,
+          "x": 11,
+          "y": 0
+        },
+        {
+          "id": 3,
+          "x": 15,
+          "y": 4
+        },
+        {
+          "id": 4,
+          "x": 15,
+          "y": 11
+        },
+        {
+          "id": 5,
+          "x": 11,
+          "y": 15
+        },
+        {
+          "id": 6,
+          "x": 5,
+          "y": 15
+        },
+        {
+          "id": 7,
+          "x": 1,
+          "y": 11
+        },
+        {
+          "id": 8,
+          "x": 1,
+          "y": 4
+        },
+        {
+          "id": 9,
+          "x": 7,
+          "y": 10
+        },
+        {
+          "id": 10,
+          "x": 9,
+          "y": 14
+        },
+        {
+          "id": 11,
+          "x": 7,
+          "y": 14
+        },
+        {
+          "id": 12,
+          "x": 9,
+          "y": 10
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 3,
+          "b": 4
+        },
+        {
+          "a": 4,
+          "b": 5
+        },
+        {
+          "a": 5,
+          "b": 6
+        },
+        {
+          "a": 6,
+          "b": 7
+        },
+        {
+          "a": 7,
+          "b": 8
+        },
+        {
+          "a": 8,
+          "b": 1
+        },
+        {
+          "a": 9,
+          "b": 10
+        },
+        {
+          "a": 10,
+          "b": 11
+        },
+        {
+          "a": 11,
+          "b": 12
+        },
+        {
+          "a": 12,
+          "b": 9
+        }
+      ],
+      "bg": {
+        "name": "saucer.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAABVQTFRFAAAAPBI8mnGahV2FUiZSbEdss5CyN0QMNAAAAIxJREFUeJwlzbEOwUAABuD/50bpcozNVV+AmA1H6wGa8pbeoJV6AEJjlCg7eskZG3XYvu0jwCH9LQgm/VyeDRHZMQ5qTTGyGvswo1Qvjc2kYVSJP9JjVzdl2DK9WkxPwRe1+GF1aQ1kcOfCq6xvHQb6XdahyikSh3m9I2PvVs0ehUvjZ6dXuB1cIjP4AL1cN2G0FZY0AAAAAElFTkSuQmCC",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "Jet1",
+      "nextId": 7,
+      "points": [
+        {
+          "id": 1,
+          "x": 3,
+          "y": 1
+        },
+        {
+          "id": 2,
+          "x": 13,
+          "y": 1
+        },
+        {
+          "id": 3,
+          "x": 8,
+          "y": 15
+        },
+        {
+          "id": 4,
+          "x": 7,
+          "y": 9
+        },
+        {
+          "id": 5,
+          "x": 8,
+          "y": 12
+        },
+        {
+          "id": 6,
+          "x": 9,
+          "y": 9
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 3,
+          "b": 1
+        },
+        {
+          "a": 4,
+          "b": 5
+        },
+        {
+          "a": 5,
+          "b": 6
+        },
+        {
+          "a": 6,
+          "b": 4
+        }
+      ],
+      "bg": {
+        "name": "jet1.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAABJQTFRFAAAA2AEAIQwjSSpbRwmHogOBYK9UigAAAHRJREFUeJwlykESQ0AQRuHXwXrMDZS4QMIyG2Xpsi5A5QJRDkDKARC5QKTH7L7+XwtIzLEjpNaybbNQ6bH/eqFA0zoI10SXRVNw06XVfimFz0uhT+boHHLLMjhksZlmh6BkPEFhWk7cv5NHytsjfDw9orqBP1NSIBG5mkygAAAAAElFTkSuQmCC",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "Jet2",
+      "nextId": 7,
+      "points": [
+        {
+          "id": 1,
+          "x": 3,
+          "y": 1
+        },
+        {
+          "id": 2,
+          "x": 13,
+          "y": 2
+        },
+        {
+          "id": 3,
+          "x": 7,
+          "y": 15
+        },
+        {
+          "id": 4,
+          "x": 6,
+          "y": 9
+        },
+        {
+          "id": 5,
+          "x": 7,
+          "y": 13
+        },
+        {
+          "id": 6,
+          "x": 8,
+          "y": 10
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 3,
+          "b": 1
+        },
+        {
+          "a": 4,
+          "b": 5
+        },
+        {
+          "a": 5,
+          "b": 6
+        },
+        {
+          "a": 6,
+          "b": 4
+        }
+      ],
+      "bg": {
+        "name": "jet2.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAABJQTFRFAAAA2AEAogOBSSpbRwmHIQwjFZC8YgAAAGxJREFUeJwtyzkKgDAQheE3CXYWpvcO4lZLCm/gQdOLYJ8mFxFi7TJmsRk+ft4QAAX2IIiu4sNFaAKLNRV4sn95dgKGUGoT0CvGFsZYPE4bIXV+h2yr0kQUE29IaMgmYL72jPFyGcttMsQbzgfuJyERJakYJAAAAABJRU5ErkJggg==",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "Jet3",
+      "nextId": 7,
+      "points": [
+        {
+          "id": 1,
+          "x": 13,
+          "y": 1
+        },
+        {
+          "id": 2,
+          "x": 3,
+          "y": 2
+        },
+        {
+          "id": 3,
+          "x": 9,
+          "y": 15
+        },
+        {
+          "id": 4,
+          "x": 10,
+          "y": 9
+        },
+        {
+          "id": 5,
+          "x": 9,
+          "y": 13
+        },
+        {
+          "id": 6,
+          "x": 8,
+          "y": 10
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 3,
+          "b": 1
+        },
+        {
+          "a": 4,
+          "b": 5
+        },
+        {
+          "a": 5,
+          "b": 6
+        },
+        {
+          "a": 6,
+          "b": 4
+        }
+      ],
+      "bg": {
+        "name": "jet2.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAABJQTFRFAAAA2AEAogOBSSpbRwmHIQwjFZC8YgAAAGxJREFUeJwtyzkKgDAQheE3CXYWpvcO4lZLCm/gQdOLYJ8mFxFi7TJmsRk+ft4QAAX2IIiu4sNFaAKLNRV4sn95dgKGUGoT0CvGFsZYPE4bIXV+h2yr0kQUE29IaMgmYL72jPFyGcttMsQbzgfuJyERJakYJAAAAABJRU5ErkJggg==",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "Mine",
+      "nextId": 9,
+      "points": [
+        {
+          "id": 1,
+          "x": 2,
+          "y": 2
+        },
+        {
+          "id": 2,
+          "x": 11,
+          "y": 11
+        },
+        {
+          "id": 3,
+          "x": 5,
+          "y": 11
+        },
+        {
+          "id": 4,
+          "x": 14,
+          "y": 2
+        },
+        {
+          "id": 5,
+          "x": 2,
+          "y": 14
+        },
+        {
+          "id": 6,
+          "x": 11,
+          "y": 5
+        },
+        {
+          "id": 7,
+          "x": 5,
+          "y": 5
+        },
+        {
+          "id": 8,
+          "x": 14,
+          "y": 14
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 3,
+          "b": 4
+        },
+        {
+          "a": 4,
+          "b": 5
+        },
+        {
+          "a": 5,
+          "b": 6
+        },
+        {
+          "a": 6,
+          "b": 7
+        },
+        {
+          "a": 7,
+          "b": 8
+        }
+      ],
+      "bg": {
+        "name": "mine.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAA9QTFRFAAAAREpZHhYNtqusxkw3DwbwwgAAAFBJREFUeJxjZIACRgRD6B2QUrzPyKD4/wEDk8A7RgYmfoGP//kfANUIKjHcew9SrKzw8d85EENYgeHfeRQGXAqmGK5dkfEeg9KHd0hWoNsOAEzsHhFnhGUAAAAAAElFTkSuQmCC",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "Copter1",
+      "nextId": 14,
+      "points": [
+        {
+          "id": 1,
+          "x": 7,
+          "y": 0
+        },
+        {
+          "id": 2,
+          "x": 9,
+          "y": 0
+        },
+        {
+          "id": 3,
+          "x": 8,
+          "y": 2
+        },
+        {
+          "id": 4,
+          "x": 8,
+          "y": 4
+        },
+        {
+          "id": 5,
+          "x": 6,
+          "y": 6
+        },
+        {
+          "id": 6,
+          "x": 6,
+          "y": 11
+        },
+        {
+          "id": 7,
+          "x": 8,
+          "y": 13
+        },
+        {
+          "id": 8,
+          "x": 10,
+          "y": 11
+        },
+        {
+          "id": 9,
+          "x": 10,
+          "y": 7
+        },
+        {
+          "id": 10,
+          "x": 9,
+          "y": 15
+        },
+        {
+          "id": 11,
+          "x": 7,
+          "y": 2
+        },
+        {
+          "id": 12,
+          "x": 8,
+          "y": 1
+        },
+        {
+          "id": 13,
+          "x": 8,
+          "y": 14
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 3,
+          "b": 4
+        },
+        {
+          "a": 4,
+          "b": 5
+        },
+        {
+          "a": 5,
+          "b": 6
+        },
+        {
+          "a": 6,
+          "b": 7
+        },
+        {
+          "a": 7,
+          "b": 8
+        },
+        {
+          "a": 8,
+          "b": 9
+        },
+        {
+          "a": 9,
+          "b": 4
+        },
+        {
+          "a": 10,
+          "b": 11
+        },
+        {
+          "a": 11,
+          "b": 12
+        },
+        {
+          "a": 12,
+          "b": 13
+        },
+        {
+          "a": 13,
+          "b": 10
+        }
+      ],
+      "bg": {
+        "name": "copter1.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAABVQTFRFAAAARwmHSSpbogOBIQwjdESQoG7AxfOqawAAAGJJREFUeJxjZIACRhBW5LsAZjgJn78DYrDYirw+ABZxhDOu8IOlhOyP2rw7AGSo/v1i/xrEEHU8YH3+AUiE0eH1e4gI90eImv+yj2VADCGjv8x7QNpNBKAMoB1QBgOj8BsGAOn7IhFPOzsKAAAAAElFTkSuQmCC",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "Copter2",
+      "nextId": 14,
+      "points": [
+        {
+          "id": 1,
+          "x": 7,
+          "y": 0
+        },
+        {
+          "id": 2,
+          "x": 9,
+          "y": 0
+        },
+        {
+          "id": 3,
+          "x": 8,
+          "y": 2
+        },
+        {
+          "id": 4,
+          "x": 8,
+          "y": 4
+        },
+        {
+          "id": 5,
+          "x": 6,
+          "y": 6
+        },
+        {
+          "id": 6,
+          "x": 6,
+          "y": 11
+        },
+        {
+          "id": 7,
+          "x": 8,
+          "y": 13
+        },
+        {
+          "id": 8,
+          "x": 10,
+          "y": 11
+        },
+        {
+          "id": 9,
+          "x": 10,
+          "y": 7
+        },
+        {
+          "id": 10,
+          "x": 3,
+          "y": 14
+        },
+        {
+          "id": 11,
+          "x": 14,
+          "y": 2
+        },
+        {
+          "id": 12,
+          "x": 14,
+          "y": 4
+        },
+        {
+          "id": 13,
+          "x": 2,
+          "y": 13
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 3,
+          "b": 4
+        },
+        {
+          "a": 4,
+          "b": 5
+        },
+        {
+          "a": 5,
+          "b": 6
+        },
+        {
+          "a": 6,
+          "b": 7
+        },
+        {
+          "a": 7,
+          "b": 8
+        },
+        {
+          "a": 8,
+          "b": 9
+        },
+        {
+          "a": 9,
+          "b": 4
+        },
+        {
+          "a": 10,
+          "b": 11
+        },
+        {
+          "a": 11,
+          "b": 12
+        },
+        {
+          "a": 12,
+          "b": 13
+        },
+        {
+          "a": 13,
+          "b": 10
+        }
+      ],
+      "bg": {
+        "name": "copter2.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAABVQTFRFAAAASSpbogOBdESQIQwjRwmHoG7A23w30QAAAGVJREFUeJxjZIACRhAhyP8AzGA0evgGImLMy3IHymC9DZVi5AYyGAVCz8uvATKYjQ3W/38DYZy/D2FoX+HfA2bonhMGM4xkPjOAGUHvGS6A1Ljyf2AAibD6fGb4cwBoF6v9HpA1AOAdHXH0mge/AAAAAElFTkSuQmCC",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "Copter3",
+      "nextId": 14,
+      "points": [
+        {
+          "id": 1,
+          "x": 7,
+          "y": 0
+        },
+        {
+          "id": 2,
+          "x": 9,
+          "y": 0
+        },
+        {
+          "id": 3,
+          "x": 8,
+          "y": 2
+        },
+        {
+          "id": 4,
+          "x": 8,
+          "y": 4
+        },
+        {
+          "id": 5,
+          "x": 6,
+          "y": 6
+        },
+        {
+          "id": 6,
+          "x": 6,
+          "y": 11
+        },
+        {
+          "id": 7,
+          "x": 8,
+          "y": 13
+        },
+        {
+          "id": 8,
+          "x": 10,
+          "y": 11
+        },
+        {
+          "id": 9,
+          "x": 10,
+          "y": 7
+        },
+        {
+          "id": 10,
+          "x": 2,
+          "y": 9
+        },
+        {
+          "id": 11,
+          "x": 14,
+          "y": 8
+        },
+        {
+          "id": 12,
+          "x": 14,
+          "y": 9
+        },
+        {
+          "id": 13,
+          "x": 2,
+          "y": 8
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 3,
+          "b": 4
+        },
+        {
+          "a": 4,
+          "b": 5
+        },
+        {
+          "a": 5,
+          "b": 6
+        },
+        {
+          "a": 6,
+          "b": 7
+        },
+        {
+          "a": 7,
+          "b": 8
+        },
+        {
+          "a": 8,
+          "b": 9
+        },
+        {
+          "a": 9,
+          "b": 4
+        },
+        {
+          "a": 10,
+          "b": 11
+        },
+        {
+          "a": 11,
+          "b": 12
+        },
+        {
+          "a": 12,
+          "b": 13
+        },
+        {
+          "a": 13,
+          "b": 10
+        }
+      ],
+      "bg": {
+        "name": "copter3.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAABJQTFRFAAAAIQwjSSpbdESQoG7ARwmHDJFF9gAAAF5JREFUeJxdzUEKgDAMBMCNH7A9eDc/EPsBwf8/Qah3Sdu7UkniyYWFOSws4QtpWapjPRxIfwz8ZAXxXEpWpCByOtpFhIi9BdyEaYOIjiO49m7jJWM0BKBX+wrF3y0v3soglj5L+aEAAAAASUVORK5CYII=",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "Copter4",
+      "nextId": 14,
+      "points": [
+        {
+          "id": 1,
+          "x": 7,
+          "y": 0
+        },
+        {
+          "id": 2,
+          "x": 9,
+          "y": 0
+        },
+        {
+          "id": 3,
+          "x": 8,
+          "y": 2
+        },
+        {
+          "id": 4,
+          "x": 8,
+          "y": 4
+        },
+        {
+          "id": 5,
+          "x": 6,
+          "y": 6
+        },
+        {
+          "id": 6,
+          "x": 6,
+          "y": 11
+        },
+        {
+          "id": 7,
+          "x": 8,
+          "y": 13
+        },
+        {
+          "id": 8,
+          "x": 10,
+          "y": 11
+        },
+        {
+          "id": 9,
+          "x": 10,
+          "y": 7
+        },
+        {
+          "id": 10,
+          "x": 2,
+          "y": 5
+        },
+        {
+          "id": 11,
+          "x": 14,
+          "y": 12
+        },
+        {
+          "id": 12,
+          "x": 14,
+          "y": 14
+        },
+        {
+          "id": 13,
+          "x": 2,
+          "y": 3
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 3,
+          "b": 4
+        },
+        {
+          "a": 4,
+          "b": 5
+        },
+        {
+          "a": 5,
+          "b": 6
+        },
+        {
+          "a": 6,
+          "b": 7
+        },
+        {
+          "a": 7,
+          "b": 8
+        },
+        {
+          "a": 8,
+          "b": 9
+        },
+        {
+          "a": 9,
+          "b": 4
+        },
+        {
+          "a": 10,
+          "b": 11
+        },
+        {
+          "a": 11,
+          "b": 12
+        },
+        {
+          "a": 12,
+          "b": 13
+        },
+        {
+          "a": 13,
+          "b": 10
+        }
+      ],
+      "bg": {
+        "name": "copter4.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAABJQTFRFAAAAIQwjSSpbdESQRwmHoG7ARKhKYwAAAFtJREFUeJxjZIACRhAhxH8fypA/D2Ew6UMZSvwgBgvvB6N3IDUsAvxGdx+8A4kYC4IZDAwuMIaKIZShZPTuAoTBwPQOzFD8wMh/H8QQZGAQfgM2GcjSZ4S6QgAAWnobcZa5x0cAAAAASUVORK5CYII=",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "Copter5",
+      "nextId": 14,
+      "points": [
+        {
+          "id": 1,
+          "x": 7,
+          "y": 15
+        },
+        {
+          "id": 2,
+          "x": 9,
+          "y": 15
+        },
+        {
+          "id": 3,
+          "x": 8,
+          "y": 13
+        },
+        {
+          "id": 4,
+          "x": 8,
+          "y": 11
+        },
+        {
+          "id": 5,
+          "x": 6,
+          "y": 9
+        },
+        {
+          "id": 6,
+          "x": 6,
+          "y": 4
+        },
+        {
+          "id": 7,
+          "x": 8,
+          "y": 2
+        },
+        {
+          "id": 8,
+          "x": 10,
+          "y": 4
+        },
+        {
+          "id": 9,
+          "x": 10,
+          "y": 8
+        },
+        {
+          "id": 10,
+          "x": 9,
+          "y": 0
+        },
+        {
+          "id": 11,
+          "x": 7,
+          "y": 13
+        },
+        {
+          "id": 12,
+          "x": 8,
+          "y": 14
+        },
+        {
+          "id": 13,
+          "x": 8,
+          "y": 1
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 3,
+          "b": 4
+        },
+        {
+          "a": 4,
+          "b": 5
+        },
+        {
+          "a": 5,
+          "b": 6
+        },
+        {
+          "a": 6,
+          "b": 7
+        },
+        {
+          "a": 7,
+          "b": 8
+        },
+        {
+          "a": 8,
+          "b": 9
+        },
+        {
+          "a": 9,
+          "b": 4
+        },
+        {
+          "a": 10,
+          "b": 11
+        },
+        {
+          "a": 11,
+          "b": 12
+        },
+        {
+          "a": 12,
+          "b": 13
+        },
+        {
+          "a": 13,
+          "b": 10
+        }
+      ],
+      "bg": {
+        "name": "copter1.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAABVQTFRFAAAARwmHSSpbogOBIQwjdESQoG7AxfOqawAAAGJJREFUeJxjZIACRhBW5LsAZjgJn78DYrDYirw+ABZxhDOu8IOlhOyP2rw7AGSo/v1i/xrEEHU8YH3+AUiE0eH1e4gI90eImv+yj2VADCGjv8x7QNpNBKAMoB1QBgOj8BsGAOn7IhFPOzsKAAAAAElFTkSuQmCC",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "Copter6",
+      "nextId": 14,
+      "points": [
+        {
+          "id": 1,
+          "x": 7,
+          "y": 14
+        },
+        {
+          "id": 2,
+          "x": 9,
+          "y": 14
+        },
+        {
+          "id": 3,
+          "x": 8,
+          "y": 12
+        },
+        {
+          "id": 4,
+          "x": 8,
+          "y": 10
+        },
+        {
+          "id": 5,
+          "x": 6,
+          "y": 8
+        },
+        {
+          "id": 6,
+          "x": 6,
+          "y": 3
+        },
+        {
+          "id": 7,
+          "x": 8,
+          "y": 1
+        },
+        {
+          "id": 8,
+          "x": 10,
+          "y": 3
+        },
+        {
+          "id": 9,
+          "x": 10,
+          "y": 7
+        },
+        {
+          "id": 10,
+          "x": 3,
+          "y": 0
+        },
+        {
+          "id": 11,
+          "x": 14,
+          "y": 12
+        },
+        {
+          "id": 12,
+          "x": 14,
+          "y": 10
+        },
+        {
+          "id": 13,
+          "x": 2,
+          "y": 1
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 3,
+          "b": 4
+        },
+        {
+          "a": 4,
+          "b": 5
+        },
+        {
+          "a": 5,
+          "b": 6
+        },
+        {
+          "a": 6,
+          "b": 7
+        },
+        {
+          "a": 7,
+          "b": 8
+        },
+        {
+          "a": 8,
+          "b": 9
+        },
+        {
+          "a": 9,
+          "b": 4
+        },
+        {
+          "a": 10,
+          "b": 11
+        },
+        {
+          "a": 11,
+          "b": 12
+        },
+        {
+          "a": 12,
+          "b": 13
+        },
+        {
+          "a": 13,
+          "b": 10
+        }
+      ],
+      "bg": {
+        "name": "copter2.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAABVQTFRFAAAASSpbogOBdESQIQwjRwmHoG7A23w30QAAAGVJREFUeJxjZIACRhAhyP8AzGA0evgGImLMy3IHymC9DZVi5AYyGAVCz8uvATKYjQ3W/38DYZy/D2FoX+HfA2bonhMGM4xkPjOAGUHvGS6A1Ljyf2AAibD6fGb4cwBoF6v9HpA1AOAdHXH0mge/AAAAAElFTkSuQmCC",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "Copter7",
+      "nextId": 14,
+      "points": [
+        {
+          "id": 1,
+          "x": 7,
+          "y": 13
+        },
+        {
+          "id": 2,
+          "x": 9,
+          "y": 13
+        },
+        {
+          "id": 3,
+          "x": 8,
+          "y": 11
+        },
+        {
+          "id": 4,
+          "x": 8,
+          "y": 9
+        },
+        {
+          "id": 5,
+          "x": 6,
+          "y": 7
+        },
+        {
+          "id": 6,
+          "x": 6,
+          "y": 2
+        },
+        {
+          "id": 7,
+          "x": 8,
+          "y": 0
+        },
+        {
+          "id": 8,
+          "x": 10,
+          "y": 2
+        },
+        {
+          "id": 9,
+          "x": 10,
+          "y": 6
+        },
+        {
+          "id": 10,
+          "x": 2,
+          "y": 4
+        },
+        {
+          "id": 11,
+          "x": 14,
+          "y": 5
+        },
+        {
+          "id": 12,
+          "x": 14,
+          "y": 4
+        },
+        {
+          "id": 13,
+          "x": 2,
+          "y": 5
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 3,
+          "b": 4
+        },
+        {
+          "a": 4,
+          "b": 5
+        },
+        {
+          "a": 5,
+          "b": 6
+        },
+        {
+          "a": 6,
+          "b": 7
+        },
+        {
+          "a": 7,
+          "b": 8
+        },
+        {
+          "a": 8,
+          "b": 9
+        },
+        {
+          "a": 9,
+          "b": 4
+        },
+        {
+          "a": 10,
+          "b": 11
+        },
+        {
+          "a": 11,
+          "b": 12
+        },
+        {
+          "a": 12,
+          "b": 13
+        },
+        {
+          "a": 13,
+          "b": 10
+        }
+      ],
+      "bg": {
+        "name": "copter3.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAABJQTFRFAAAAIQwjSSpbdESQoG7ARwmHDJFF9gAAAF5JREFUeJxdzUEKgDAMBMCNH7A9eDc/EPsBwf8/Qah3Sdu7UkniyYWFOSws4QtpWapjPRxIfwz8ZAXxXEpWpCByOtpFhIi9BdyEaYOIjiO49m7jJWM0BKBX+wrF3y0v3soglj5L+aEAAAAASUVORK5CYII=",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "Copter8",
+      "nextId": 14,
+      "points": [
+        {
+          "id": 1,
+          "x": 7,
+          "y": 14
+        },
+        {
+          "id": 2,
+          "x": 9,
+          "y": 14
+        },
+        {
+          "id": 3,
+          "x": 8,
+          "y": 12
+        },
+        {
+          "id": 4,
+          "x": 8,
+          "y": 10
+        },
+        {
+          "id": 5,
+          "x": 6,
+          "y": 8
+        },
+        {
+          "id": 6,
+          "x": 6,
+          "y": 3
+        },
+        {
+          "id": 7,
+          "x": 8,
+          "y": 1
+        },
+        {
+          "id": 8,
+          "x": 10,
+          "y": 3
+        },
+        {
+          "id": 9,
+          "x": 10,
+          "y": 7
+        },
+        {
+          "id": 10,
+          "x": 2,
+          "y": 9
+        },
+        {
+          "id": 11,
+          "x": 14,
+          "y": 2
+        },
+        {
+          "id": 12,
+          "x": 14,
+          "y": 0
+        },
+        {
+          "id": 13,
+          "x": 2,
+          "y": 11
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 3,
+          "b": 4
+        },
+        {
+          "a": 4,
+          "b": 5
+        },
+        {
+          "a": 5,
+          "b": 6
+        },
+        {
+          "a": 6,
+          "b": 7
+        },
+        {
+          "a": 7,
+          "b": 8
+        },
+        {
+          "a": 8,
+          "b": 9
+        },
+        {
+          "a": 9,
+          "b": 4
+        },
+        {
+          "a": 10,
+          "b": 11
+        },
+        {
+          "a": 11,
+          "b": 12
+        },
+        {
+          "a": 12,
+          "b": 13
+        },
+        {
+          "a": 13,
+          "b": 10
+        }
+      ],
+      "bg": {
+        "name": "copter4.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAABJQTFRFAAAAIQwjSSpbdESQRwmHoG7ARKhKYwAAAFtJREFUeJxjZIACRhAhxH8fypA/D2Ew6UMZSvwgBgvvB6N3IDUsAvxGdx+8A4kYC4IZDAwuMIaKIZShZPTuAoTBwPQOzFD8wMh/H8QQZGAQfgM2GcjSZ4S6QgAAWnobcZa5x0cAAAAASUVORK5CYII=",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "swirl1",
+      "nextId": 5,
+      "points": [
+        {
+          "id": 1,
+          "x": 7,
+          "y": 5
+        },
+        {
+          "id": 2,
+          "x": 4,
+          "y": 9
+        },
+        {
+          "id": 3,
+          "x": 8,
+          "y": 12
+        },
+        {
+          "id": 4,
+          "x": 11,
+          "y": 8
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 3,
+          "b": 4
+        },
+        {
+          "a": 4,
+          "b": 1
+        },
+        {
+          "a": 1,
+          "b": 3
+        },
+        {
+          "a": 4,
+          "b": 2
+        }
+      ],
+      "bg": {
+        "name": "swirl1.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAABVQTFRFAAAAHhYNqqgoXEoZli4gxkw3REpZvcHtDAAAAHRJREFUeJxjZIACRgRDSOD/fQbG/4wMwv8E330QegeSEtLfz/QPyBB2+r/nE4hhys/45+M5RgbGkId6H87fBepyEvr7cc8HRgYl5T+XdfcDzVH87Mhw5zyI8cCZ4cwHIEP5rqDQO6WzQJPfMhh9+H+fEcN2AAHzKBEF0/oGAAAAAElFTkSuQmCC",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "swirl2",
+      "nextId": 5,
+      "points": [
+        {
+          "id": 1,
+          "x": 9,
+          "y": 5
+        },
+        {
+          "id": 2,
+          "x": 4,
+          "y": 7
+        },
+        {
+          "id": 3,
+          "x": 7,
+          "y": 12
+        },
+        {
+          "id": 4,
+          "x": 11,
+          "y": 9
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 3,
+          "b": 4
+        },
+        {
+          "a": 4,
+          "b": 1
+        },
+        {
+          "a": 1,
+          "b": 3
+        },
+        {
+          "a": 4,
+          "b": 2
+        }
+      ],
+      "bg": {
+        "name": "swirl2.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAABVQTFRFAAAAHhYNqqgoXEoZli4gxkw3REpZvcHtDAAAAHZJREFUeJxjZIACRgYGIYF3H8AMRkH++2AGA6PSXYiIgOI5MEPE8f+eDwaMDMJO75j+7FdgZFQ0Evp395AsI5O8sdC/9/f/MTLxm7x5onv/PiMTH4vj/73vGRiZeT86/z3/AWwOyDywyUb/H7yHWKH4/z6YAQYAEt4jsXTdppEAAAAASUVORK5CYII=",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "swirl3",
+      "nextId": 5,
+      "points": [
+        {
+          "id": 1,
+          "x": 10,
+          "y": 6
+        },
+        {
+          "id": 2,
+          "x": 5,
+          "y": 6
+        },
+        {
+          "id": 3,
+          "x": 6,
+          "y": 11
+        },
+        {
+          "id": 4,
+          "x": 10,
+          "y": 10
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 3,
+          "b": 4
+        },
+        {
+          "a": 4,
+          "b": 1
+        },
+        {
+          "a": 1,
+          "b": 3
+        },
+        {
+          "a": 4,
+          "b": 2
+        }
+      ],
+      "bg": {
+        "name": "swirl3.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAABVQTFRFAAAAXEoZqqgoHhYNxkw3li4gREpZD29QPAAAAHBJREFUeJwtzcEJgDAMheHEDlAtXoXgBFW8FnFgwR08Cy5giwuI6L01bX0Q+C7hR/iH8chlCOnvBMD2YAgN/olQisAxkF4jwgxYVJMK16yx6NoqXEvDX7VZR2cZQ4lHkIz+JIAtwt65hST3hJTKrbgPYo4eofLnRmYAAAAASUVORK5CYII=",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "swirl4",
+      "nextId": 5,
+      "points": [
+        {
+          "id": 1,
+          "x": 11,
+          "y": 7
+        },
+        {
+          "id": 2,
+          "x": 6,
+          "y": 5
+        },
+        {
+          "id": 3,
+          "x": 5,
+          "y": 10
+        },
+        {
+          "id": 4,
+          "x": 9,
+          "y": 11
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 3,
+          "b": 4
+        },
+        {
+          "a": 4,
+          "b": 1
+        },
+        {
+          "a": 1,
+          "b": 3
+        },
+        {
+          "a": 4,
+          "b": 2
+        }
+      ],
+      "bg": {
+        "name": "swirl4.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAABVQTFRFAAAAqqgoXEoZHhYNxkw3li4gREpZejsoCgAAAGRJREFUeJxjZIACRlSG0DsQw/gsgyL/BUYGo/tCAv/+AxmCSoKMb0AMZUE5prfvgQwGk0/279YygBn8cmCGih7TnQtABjO/M8O9/+eADAGF//cZ3wGlgKYZM5wFMgzfP8C0FAgASrQeEeT5g0IAAAAASUVORK5CYII=",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "bomb",
+      "nextId": 7,
+      "points": [
+        {
+          "id": 1,
+          "x": 5,
+          "y": 2
+        },
+        {
+          "id": 2,
+          "x": 11,
+          "y": 2
+        },
+        {
+          "id": 3,
+          "x": 5,
+          "y": 14
+        },
+        {
+          "id": 4,
+          "x": 1,
+          "y": 8
+        },
+        {
+          "id": 5,
+          "x": 15,
+          "y": 8
+        },
+        {
+          "id": 6,
+          "x": 11,
+          "y": 14
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 3,
+          "b": 4
+        },
+        {
+          "a": 4,
+          "b": 5
+        },
+        {
+          "a": 5,
+          "b": 6
+        },
+        {
+          "a": 6,
+          "b": 1
+        }
+      ],
+      "bg": {
+        "name": "bomb.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAABVQTFRFAAAAcyojn5Qt/+ptdWcg9cEr/Cgft2rr4gAAAH1JREFUeJwdjUEKwjAABGebXtWCdw/mLG2aH9gn6IM9SxOs90IfYKAfCDV62mFhGIHOh/0Dga9OSyhgekeeRpXDkZagMp5AkukwbSRrWDGXF/pBsdhkB1gbRg2Wber46Hgjvx1R1b1Ji+epuu8CdjcLe41UOYq6hdIo9X+LL6S2J+9DM79RAAAAAElFTkSuQmCC",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "explod1",
+      "nextId": 2,
+      "points": [
+        {
+          "id": 1,
+          "x": 8,
+          "y": 8
+        }
+      ],
+      "edges": [],
+      "bg": {
+        "name": "explod1.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAZQTFRFAAAA/+ptjG2LoQAAABNJREFUeJxjZGBgxESM9SCETQoAGUoBEfPA/+gAAAAASUVORK5CYII=",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "explod2",
+      "nextId": 10,
+      "points": [
+        {
+          "id": 1,
+          "x": 8,
+          "y": 8
+        },
+        {
+          "id": 3,
+          "x": 10,
+          "y": 5
+        },
+        {
+          "id": 5,
+          "x": 11,
+          "y": 10
+        },
+        {
+          "id": 7,
+          "x": 6,
+          "y": 11
+        },
+        {
+          "id": 9,
+          "x": 5,
+          "y": 6
+        }
+      ],
+      "edges": [
+        {
+          "a": 3,
+          "b": 9
+        },
+        {
+          "a": 3,
+          "b": 5
+        },
+        {
+          "a": 5,
+          "b": 7
+        },
+        {
+          "a": 7,
+          "b": 9
+        }
+      ],
+      "bg": {
+        "name": "explod2.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAZQTFRFAAAA/+ptjG2LoQAAABhJREFUeJxjZGBgREbMexnZbyIQkIuqAAB3agURqA7SKwAAAABJRU5ErkJggg==",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "explod3",
+      "nextId": 14,
+      "points": [
+        {
+          "id": 1,
+          "x": 8,
+          "y": 8
+        },
+        {
+          "id": 3,
+          "x": 10,
+          "y": 5
+        },
+        {
+          "id": 5,
+          "x": 11,
+          "y": 10
+        },
+        {
+          "id": 7,
+          "x": 6,
+          "y": 11
+        },
+        {
+          "id": 9,
+          "x": 5,
+          "y": 6
+        },
+        {
+          "id": 10,
+          "x": 5,
+          "y": 3
+        },
+        {
+          "id": 11,
+          "x": 13,
+          "y": 5
+        },
+        {
+          "id": 12,
+          "x": 11,
+          "y": 13
+        },
+        {
+          "id": 13,
+          "x": 3,
+          "y": 11
+        }
+      ],
+      "edges": [
+        {
+          "a": 3,
+          "b": 9
+        },
+        {
+          "a": 3,
+          "b": 5
+        },
+        {
+          "a": 5,
+          "b": 7
+        },
+        {
+          "a": 7,
+          "b": 9
+        },
+        {
+          "a": 10,
+          "b": 11
+        },
+        {
+          "a": 11,
+          "b": 12
+        },
+        {
+          "a": 12,
+          "b": 13
+        },
+        {
+          "a": 13,
+          "b": 10
+        }
+      ],
+      "bg": {
+        "name": "explod3.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAgMAAABinRfyAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAlQTFRFAAAA/+pt/CgfoASbRwAAACtJREFUeJxjZAACRiRC1H4NI0Pa/9mMjCsZpjEyZtpPx2Q5TIMogShGMQAAFnoNkZ1K3HAAAAAASUVORK5CYII=",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "explod4",
+      "nextId": 18,
+      "points": [
+        {
+          "id": 3,
+          "x": 10,
+          "y": 5
+        },
+        {
+          "id": 5,
+          "x": 11,
+          "y": 10
+        },
+        {
+          "id": 7,
+          "x": 6,
+          "y": 11
+        },
+        {
+          "id": 9,
+          "x": 5,
+          "y": 6
+        },
+        {
+          "id": 10,
+          "x": 5,
+          "y": 3
+        },
+        {
+          "id": 11,
+          "x": 13,
+          "y": 5
+        },
+        {
+          "id": 12,
+          "x": 11,
+          "y": 13
+        },
+        {
+          "id": 13,
+          "x": 3,
+          "y": 11
+        },
+        {
+          "id": 14,
+          "x": 1,
+          "y": 4
+        },
+        {
+          "id": 15,
+          "x": 12,
+          "y": 1
+        },
+        {
+          "id": 16,
+          "x": 15,
+          "y": 12
+        },
+        {
+          "id": 17,
+          "x": 4,
+          "y": 15
+        }
+      ],
+      "edges": [
+        {
+          "a": 3,
+          "b": 9
+        },
+        {
+          "a": 3,
+          "b": 5
+        },
+        {
+          "a": 5,
+          "b": 7
+        },
+        {
+          "a": 7,
+          "b": 9
+        },
+        {
+          "a": 10,
+          "b": 11
+        },
+        {
+          "a": 11,
+          "b": 12
+        },
+        {
+          "a": 12,
+          "b": 13
+        },
+        {
+          "a": 13,
+          "b": 10
+        },
+        {
+          "a": 14,
+          "b": 15
+        },
+        {
+          "a": 15,
+          "b": 16
+        },
+        {
+          "a": 16,
+          "b": 17
+        },
+        {
+          "a": 17,
+          "b": 14
+        }
+      ],
+      "bg": {
+        "name": "explod4.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAgMAAABinRfyAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAlQTFRFAAAA/+pt/CgfoASbRwAAAERJREFUeJxjZAACRoZQhtWMjCsZpjGyLWF4xig2heEXo1jOgiJGqbakRYxiWV1dyKy+W0qMUhOASsCKGWcwLoMYADIKAC50FKGNMrXIAAAAAElFTkSuQmCC",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "explod5",
+      "nextId": 18,
+      "points": [
+        {
+          "id": 10,
+          "x": 5,
+          "y": 3
+        },
+        {
+          "id": 11,
+          "x": 13,
+          "y": 5
+        },
+        {
+          "id": 12,
+          "x": 11,
+          "y": 13
+        },
+        {
+          "id": 13,
+          "x": 3,
+          "y": 11
+        },
+        {
+          "id": 14,
+          "x": 1,
+          "y": 4
+        },
+        {
+          "id": 15,
+          "x": 12,
+          "y": 1
+        },
+        {
+          "id": 16,
+          "x": 15,
+          "y": 12
+        },
+        {
+          "id": 17,
+          "x": 4,
+          "y": 15
+        }
+      ],
+      "edges": [
+        {
+          "a": 10,
+          "b": 11
+        },
+        {
+          "a": 11,
+          "b": 12
+        },
+        {
+          "a": 12,
+          "b": 13
+        },
+        {
+          "a": 13,
+          "b": 10
+        },
+        {
+          "a": 14,
+          "b": 15
+        },
+        {
+          "a": 15,
+          "b": 16
+        },
+        {
+          "a": 16,
+          "b": 17
+        },
+        {
+          "a": 17,
+          "b": 14
+        }
+      ],
+      "bg": {
+        "name": "explod5.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAgMAAABinRfyAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAlQTFRFAAAA/Cgfcyojg0N4/QAAADpJREFUeJxjZAACRoZQhtWMjCsZpjGyyP37wCjxgkmJUeoZgwqQxbAEK0ugoIGFkYWloQOiDWwAyCgA5+4SMbhEzDIAAAAASUVORK5CYII=",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "explod6",
+      "nextId": 18,
+      "points": [
+        {
+          "id": 14,
+          "x": 1,
+          "y": 4
+        },
+        {
+          "id": 15,
+          "x": 12,
+          "y": 1
+        },
+        {
+          "id": 16,
+          "x": 15,
+          "y": 12
+        },
+        {
+          "id": 17,
+          "x": 4,
+          "y": 15
+        }
+      ],
+      "edges": [
+        {
+          "a": 14,
+          "b": 15
+        },
+        {
+          "a": 15,
+          "b": 16
+        },
+        {
+          "a": 16,
+          "b": 17
+        },
+        {
+          "a": 17,
+          "b": 14
+        }
+      ],
+      "bg": {
+        "name": "explod6.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAZQTFRFAAAAcyojPtzSnAAAABtJREFUeJxjZGBg5JrHCCSByOEQdhKCRK2BJACFJwURpC/W5AAAAABJRU5ErkJggg==",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "bengine1",
+      "nextId": 10,
+      "points": [
+        {
+          "id": 1,
+          "x": 3,
+          "y": 10
+        },
+        {
+          "id": 2,
+          "x": 8,
+          "y": 0
+        },
+        {
+          "id": 3,
+          "x": 13,
+          "y": 10
+        },
+        {
+          "id": 7,
+          "x": 10,
+          "y": 10
+        },
+        {
+          "id": 8,
+          "x": 8,
+          "y": 7
+        },
+        {
+          "id": 9,
+          "x": 6,
+          "y": 10
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 7,
+          "b": 8
+        },
+        {
+          "a": 8,
+          "b": 9
+        }
+      ],
+      "bg": {
+        "name": "bengine1.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAgMAAABinRfyAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAlQTFRFAAAAcyoj/CgfW6iIMQAAADZJREFUeJxjZGDrKmBkEKvLYWSI8o6GEIyZ9tMZGVcyTIMSkd6zGRlD7VczMoYwvGZkAAKcBABk6QuRfHwLTgAAAABJRU5ErkJggg==",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "bengine2",
+      "nextId": 10,
+      "points": [
+        {
+          "id": 1,
+          "x": 4,
+          "y": 10
+        },
+        {
+          "id": 2,
+          "x": 8,
+          "y": 3
+        },
+        {
+          "id": 3,
+          "x": 12,
+          "y": 10
+        },
+        {
+          "id": 7,
+          "x": 9,
+          "y": 10
+        },
+        {
+          "id": 8,
+          "x": 8,
+          "y": 9
+        },
+        {
+          "id": 9,
+          "x": 7,
+          "y": 10
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 7,
+          "b": 8
+        },
+        {
+          "a": 8,
+          "b": 9
+        }
+      ],
+      "bg": {
+        "name": "bengine2.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAgMAAABinRfyAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAlQTFRFAAAAcyoj/CgfW6iIMQAAACxJREFUeJxjZAACRgjB6r2BkUHUfg0jQ5h9NiNDlHc0MgEWC2VYzYikA5MAAI1CCBEbyTVwAAAAAElFTkSuQmCC",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "bullet",
+      "nextId": 5,
+      "points": [
+        {
+          "id": 1,
+          "x": 5,
+          "y": 8
+        },
+        {
+          "id": 2,
+          "x": 8,
+          "y": 5
+        },
+        {
+          "id": 3,
+          "x": 8,
+          "y": 11
+        },
+        {
+          "id": 4,
+          "x": 11,
+          "y": 8
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 3,
+          "b": 4
+        },
+        {
+          "a": 4,
+          "b": 1
+        }
+      ],
+      "bg": {
+        "name": "bullet.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAgMAAABinRfyAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAlQTFRFAAAA3NwAAMgAqbn6igAAACNJREFUeJxjZAACRqwEo/0BRgZW7w2MDGJ1OVACzAVL4NAGAOx4BhHiDijwAAAAAElFTkSuQmCC",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "pulse1",
+      "nextId": 5,
+      "points": [
+        {
+          "id": 1,
+          "x": 4,
+          "y": 8
+        },
+        {
+          "id": 2,
+          "x": 7,
+          "y": 6
+        },
+        {
+          "id": 3,
+          "x": 9,
+          "y": 6
+        },
+        {
+          "id": 4,
+          "x": 12,
+          "y": 8
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 3,
+          "b": 4
+        }
+      ],
+      "bg": {
+        "name": "pulse1.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAgMAAABinRfyAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAlQTFRFAAAA4xrqtSmo3/8mWQAAABpJREFUeJxjZAACRtyEqP0aRoYs+3A8SlAIAFt0AhGCzazfAAAAAElFTkSuQmCC",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "pulse2",
+      "nextId": 5,
+      "points": [
+        {
+          "id": 1,
+          "x": 0,
+          "y": 9
+        },
+        {
+          "id": 2,
+          "x": 3,
+          "y": 6
+        },
+        {
+          "id": 3,
+          "x": 12,
+          "y": 6
+        },
+        {
+          "id": 4,
+          "x": 15,
+          "y": 9
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 3,
+          "b": 4
+        }
+      ],
+      "bg": {
+        "name": "pulse2.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAA9QTFRFAAAAtSmo+UX64xrqygPUStL/GgAAADJJREFUeJxjZIACRqIYgmD6PSOjkgCQ/n+PUVj2ApDBrMdocgYs5czocADMYCHOQHQGAP1eBpnHF3a4AAAAAElFTkSuQmCC",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "pulse3",
+      "nextId": 9,
+      "points": [
+        {
+          "id": 1,
+          "x": 0,
+          "y": 7
+        },
+        {
+          "id": 2,
+          "x": 3,
+          "y": 4
+        },
+        {
+          "id": 3,
+          "x": 12,
+          "y": 4
+        },
+        {
+          "id": 4,
+          "x": 15,
+          "y": 7
+        },
+        {
+          "id": 5,
+          "x": 0,
+          "y": 10
+        },
+        {
+          "id": 6,
+          "x": 3,
+          "y": 7
+        },
+        {
+          "id": 7,
+          "x": 12,
+          "y": 7
+        },
+        {
+          "id": 8,
+          "x": 15,
+          "y": 10
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 3,
+          "b": 4
+        },
+        {
+          "a": 5,
+          "b": 6
+        },
+        {
+          "a": 6,
+          "b": 7
+        },
+        {
+          "a": 7,
+          "b": 8
+        }
+      ],
+      "bg": {
+        "name": "pulse3.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAA9QTFRFAAAAtSmo+UX64xrqygPUStL/GgAAAEFJREFUeJxjZIACRiwMQTD9npFREcx4xygkAGb8Z1RiBLH+f2BUFgQz3jMqw9SYwNS47AEzXBgdDoAZLNisQGcAAJtgDFPpNLgHAAAAAElFTkSuQmCC",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "flame1",
+      "nextId": 9,
+      "points": [
+        {
+          "id": 1,
+          "x": 4,
+          "y": 0
+        },
+        {
+          "id": 2,
+          "x": 2,
+          "y": 2
+        },
+        {
+          "id": 3,
+          "x": 2,
+          "y": 5
+        },
+        {
+          "id": 4,
+          "x": 8,
+          "y": 11
+        },
+        {
+          "id": 5,
+          "x": 14,
+          "y": 5
+        },
+        {
+          "id": 6,
+          "x": 14,
+          "y": 2
+        },
+        {
+          "id": 7,
+          "x": 12,
+          "y": 0
+        },
+        {
+          "id": 8,
+          "x": 8,
+          "y": 5
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 3,
+          "b": 4
+        },
+        {
+          "a": 4,
+          "b": 5
+        },
+        {
+          "a": 5,
+          "b": 6
+        },
+        {
+          "a": 6,
+          "b": 7
+        },
+        {
+          "a": 7,
+          "b": 8
+        },
+        {
+          "a": 8,
+          "b": 1
+        }
+      ],
+      "bg": {
+        "name": "flame1.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAA9QTFRFAAAAdWcg9cEr/Cgfn5QtX6Qr0AAAAFFJREFUeJyNyzEOgCAUA9DWOIsh7sR7uHByvAnEmRhuoP2wONrppWkJ7gDuRvhVeLKBrhm2RQjpA8aCqWqsCiFBYLxqM8C7jI75OAf0Guj5gxccHxUR51F6pwAAAABJRU5ErkJggg==",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "flame2",
+      "nextId": 9,
+      "points": [
+        {
+          "id": 1,
+          "x": 5,
+          "y": 0
+        },
+        {
+          "id": 2,
+          "x": 4,
+          "y": 3
+        },
+        {
+          "id": 4,
+          "x": 8,
+          "y": 6
+        },
+        {
+          "id": 6,
+          "x": 12,
+          "y": 3
+        },
+        {
+          "id": 7,
+          "x": 11,
+          "y": 0
+        },
+        {
+          "id": 8,
+          "x": 8,
+          "y": 1
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 6,
+          "b": 7
+        },
+        {
+          "a": 7,
+          "b": 8
+        },
+        {
+          "a": 8,
+          "b": 1
+        },
+        {
+          "a": 2,
+          "b": 4
+        },
+        {
+          "a": 4,
+          "b": 6
+        }
+      ],
+      "bg": {
+        "name": "flame2.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAgMAAABinRfyAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAxQTFRFAAAAdWcg9cErn5Qt2uqsagAAAC1JREFUeJxjZMiyD2dkeHUwFEqAuVZFIYwMctN8GBnYTxowMjDaH2BkAAIiCABqNgoRa1gvjQAAAABJRU5ErkJggg==",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "waveleft",
+      "nextId": 9,
+      "points": [
+        {
+          "id": 1,
+          "x": 11,
+          "y": 3
+        },
+        {
+          "id": 2,
+          "x": 8,
+          "y": 6
+        },
+        {
+          "id": 3,
+          "x": 8,
+          "y": 10
+        },
+        {
+          "id": 4,
+          "x": 11,
+          "y": 13
+        },
+        {
+          "id": 5,
+          "x": 6,
+          "y": 4
+        },
+        {
+          "id": 6,
+          "x": 3,
+          "y": 7
+        },
+        {
+          "id": 7,
+          "x": 3,
+          "y": 9
+        },
+        {
+          "id": 8,
+          "x": 6,
+          "y": 12
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 3,
+          "b": 4
+        },
+        {
+          "a": 5,
+          "b": 6
+        },
+        {
+          "a": 6,
+          "b": 7
+        },
+        {
+          "a": 7,
+          "b": 8
+        }
+      ],
+      "bg": {
+        "name": "waveleft.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAZQTFRFAAAA3NwADHn/iAAAACVJREFUeJxjZGBghCIFRhYbRo4KRsl0RsH3IARkALlAQaAUTBkAcdQE0Wn1mz0AAAAASUVORK5CYII=",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "waveright",
+      "nextId": 9,
+      "points": [
+        {
+          "id": 1,
+          "x": 5,
+          "y": 3
+        },
+        {
+          "id": 2,
+          "x": 8,
+          "y": 6
+        },
+        {
+          "id": 3,
+          "x": 8,
+          "y": 10
+        },
+        {
+          "id": 4,
+          "x": 5,
+          "y": 13
+        },
+        {
+          "id": 5,
+          "x": 10,
+          "y": 4
+        },
+        {
+          "id": 6,
+          "x": 13,
+          "y": 7
+        },
+        {
+          "id": 7,
+          "x": 13,
+          "y": 9
+        },
+        {
+          "id": 8,
+          "x": 10,
+          "y": 12
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 3,
+          "b": 4
+        },
+        {
+          "a": 5,
+          "b": 6
+        },
+        {
+          "a": 6,
+          "b": 7
+        },
+        {
+          "a": 7,
+          "b": 8
+        }
+      ],
+      "bg": {
+        "name": "waveright.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAZQTFRFAAAA3NwADHn/iAAAACZJREFUeJxjZGBghCCWP4xMcoyM/IyM0xkZOkAIyABygYJAKZgyAG6IBLFJmXweAAAAAElFTkSuQmCC",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "shotstraight",
+      "nextId": 3,
+      "points": [
+        {
+          "id": 1,
+          "x": 8,
+          "y": 5
+        },
+        {
+          "id": 2,
+          "x": 8,
+          "y": 10
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        }
+      ],
+      "bg": {
+        "name": "shotstraight.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAgMAAABinRfyAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAlQTFRFAAAA3NwAAMgAqbn6igAAAB5JREFUeJxjZAACRqwEo/0BKMFU14BMMDQ0YNcBBADsgAYRHTIHVgAAAABJRU5ErkJggg==",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "shot1left",
+      "nextId": 3,
+      "points": [
+        {
+          "id": 1,
+          "x": 7,
+          "y": 5
+        },
+        {
+          "id": 2,
+          "x": 8,
+          "y": 10
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        }
+      ],
+      "bg": {
+        "name": "shot1left.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAgMAAABinRfyAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAlQTFRFAAAA3NwAAMgAqbn6igAAACFJREFUeJxjZAACRqwE628YwfUNSDDVNUAJhoYG7DqAAADukAYRYnNBDgAAAABJRU5ErkJggg==",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "shot1right",
+      "nextId": 3,
+      "points": [
+        {
+          "id": 1,
+          "x": 9,
+          "y": 5
+        },
+        {
+          "id": 2,
+          "x": 8,
+          "y": 10
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        }
+      ],
+      "bg": {
+        "name": "shot1right.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAgMAAABinRfyAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAlQTFRFAAAA3NwAAMgAqbn6igAAACJJREFUeJxjZAACRuxEwAYYsSCBkYGprgFKMDQ04NDBwAAA7LwGETdSr18AAAAASUVORK5CYII=",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "shot2left",
+      "nextId": 3,
+      "points": [
+        {
+          "id": 1,
+          "x": 6,
+          "y": 5
+        },
+        {
+          "id": 2,
+          "x": 9,
+          "y": 10
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        }
+      ],
+      "bg": {
+        "name": "shot2left.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAgMAAABinRfyAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAlQTFRFAAAA3NwAAMgAqbn6igAAACFJREFUeJxjZAACRqwE628YwVTXACUYFiQACYUH2HUAAQDtxgYRrzyqFAAAAABJRU5ErkJggg==",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "shot2right",
+      "nextId": 3,
+      "points": [
+        {
+          "id": 1,
+          "x": 10,
+          "y": 5
+        },
+        {
+          "id": 2,
+          "x": 7,
+          "y": 10
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        }
+      ],
+      "bg": {
+        "name": "shot2right.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAgMAAABinRfyAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAlQTFRFAAAA3NwAAMgAqbn6igAAACFJREFUeJxjZAACRuxEwAYowVTXACW4vgElmP7h0sHAAADtqAYRLgO9twAAAABJRU5ErkJggg==",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "homing",
+      "nextId": 10,
+      "points": [
+        {
+          "id": 2,
+          "x": 12,
+          "y": 8
+        },
+        {
+          "id": 3,
+          "x": 7,
+          "y": 12
+        },
+        {
+          "id": 4,
+          "x": 3,
+          "y": 6
+        },
+        {
+          "id": 5,
+          "x": 8,
+          "y": 3
+        },
+        {
+          "id": 6,
+          "x": 4,
+          "y": 3
+        },
+        {
+          "id": 7,
+          "x": 4,
+          "y": 10
+        },
+        {
+          "id": 8,
+          "x": 11,
+          "y": 11
+        },
+        {
+          "id": 9,
+          "x": 11,
+          "y": 4
+        }
+      ],
+      "edges": [
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 3,
+          "b": 4
+        },
+        {
+          "a": 4,
+          "b": 5
+        },
+        {
+          "a": 2,
+          "b": 5
+        },
+        {
+          "a": 6,
+          "b": 7
+        },
+        {
+          "a": 7,
+          "b": 8
+        },
+        {
+          "a": 8,
+          "b": 9
+        },
+        {
+          "a": 9,
+          "b": 6
+        }
+      ],
+      "bg": {
+        "name": "homing.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAgMAAABinRfyAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAxQTFRFAAAAygPU4xrq+UX6oDIxuwAAACpJREFUeJxjZAACRnSC1foAI4NUWQEjQ36pDCPjPit2CAHmQiTASjD1AgA+/QgR2X2LRwAAAABJRU5ErkJggg==",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "beamgenleft",
+      "nextId": 5,
+      "points": [
+        {
+          "id": 1,
+          "x": 14,
+          "y": 1
+        },
+        {
+          "id": 2,
+          "x": 1,
+          "y": 8
+        },
+        {
+          "id": 3,
+          "x": 14,
+          "y": 15
+        },
+        {
+          "id": 4,
+          "x": 6,
+          "y": 8
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 3,
+          "b": 4
+        },
+        {
+          "a": 4,
+          "b": 1
+        }
+      ],
+      "bg": {
+        "name": "beamgenleft.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAABhQTFRFAAAAPBI8UiZShV2FbEdsmnGas5Cy3a3dtIdZTAAAAHdJREFUeJxjZIACRjApxP8exBAUFGS8A2QICRox3AcyGFUc3z58d4+RQcX53917DxgYWQMV384B6WJyNdh9Dswwtd93BsRgDRR4uxYsomTE/+7uBaDJQsaC//89BJkjaCjE8G8v0GRGQSHB/3fAlgoK/n/PCHMGAOqKIYGpi1N8AAAAAElFTkSuQmCC",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.5
+      }
+    },
+    {
+      "name": "beamgenright",
+      "nextId": 5,
+      "points": [
+        {
+          "id": 1,
+          "x": 2,
+          "y": 1
+        },
+        {
+          "id": 2,
+          "x": 15,
+          "y": 8
+        },
+        {
+          "id": 3,
+          "x": 2,
+          "y": 15
+        },
+        {
+          "id": 4,
+          "x": 10,
+          "y": 8
+        }
+      ],
+      "edges": [
+        {
+          "a": 1,
+          "b": 2
+        },
+        {
+          "a": 2,
+          "b": 3
+        },
+        {
+          "a": 3,
+          "b": 4
+        },
+        {
+          "a": 4,
+          "b": 1
+        }
+      ],
+      "bg": {
+        "name": "beamgenright.png",
+        "dataURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAAXNSR0IB2cksfwAAAAlwSFlzAAALEwAACxMBAJqcGAAAABJQTFRFAAAAUiZSPBI8bEdshV2FmnGaWCjBagAAAGtJREFUeJxjZIACRkbF9/wPQAwmQcO3D/keABlCjv/fn38HElEQZPx39gMjUFZAWfHNfUaQOiEjgd+MYK0m8ntQGcZCYCkWBwZBsGIXRoF/ez8wMgo7Mrw/9w5s8puL70B2yX8QvAfSCXMGAAKeIBEY0QnIAAAAAElFTkSuQmCC",
+        "x": 0,
+        "y": 0,
+        "scale": 50,
+        "opacity": 0.39
+      }
+    }
+  ]
+}
