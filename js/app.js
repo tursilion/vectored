@@ -261,7 +261,13 @@ function insertResets(ops, resetN) {
     if (op.cmd === CMD.DRAW || op.cmd === CMD.POINT) {
       if (++drawn >= resetN && idx < ops.length - 1) {
         out.push({ cmd: CMD.RESET });
-        out.push({ cmd: CMD.MOVE, x: pen.x, y: pen.y });   // move back from origin
+        // A RESET leaves the beam at the origin.  Only move back to the resume
+        // point when the trail continues with a DRAW that must start there; if
+        // the next op is a MOVE (new trail) or POINT (isolated dot), it already
+        // repositions the beam, so a move-back would just be a MOVE before a
+        // MOVE — collapse the two by emitting neither here.
+        if (ops[idx + 1].cmd === CMD.DRAW)
+          out.push({ cmd: CMD.MOVE, x: pen.x, y: pen.y });   // move back from origin
         drawn = 0;
       }
     }

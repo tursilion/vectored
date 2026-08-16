@@ -1,6 +1,6 @@
 'use strict';
 const assert = require('assert');
-const { CMD, extractTrails, buildExport, disassemble, fromInt8 } = require('../js/app.js');
+const { CMD, extractTrails, buildExport, disassemble, fromInt8, insertResets } = require('../js/app.js');
 
 let pass = 0;
 function check(name, fn) { fn(); pass++; console.log('  ok -', name); }
@@ -242,6 +242,40 @@ check('coords stay within int8 for 256 grid corners', () => {
   const signed = res.bytes.map(fromInt8);
   assert.ok(signed.includes(-128));
   assert.ok(signed.includes(127));
+});
+
+check('reset move-back is kept mid-trail (next op is a DRAW)', () => {
+  // MOVE, DRAW, DRAW: with resetN=1 the reset after the first DRAW is followed
+  // by another DRAW, so the beam must move back to the resume point.
+  const ops = [
+    { cmd: CMD.MOVE, x: 0, y: 0 },
+    { cmd: CMD.DRAW, x: 1, y: 0 },
+    { cmd: CMD.DRAW, x: 2, y: 0 },
+  ];
+  const out = insertResets(ops, 1);
+  const i = out.findIndex(o => o.cmd === CMD.RESET);
+  assert.ok(i >= 0, 'expected a RESET');
+  assert.strictEqual(out[i + 1].cmd, CMD.MOVE, 'move-back must follow the RESET');
+  assert.deepStrictEqual([out[i + 1].x, out[i + 1].y], [1, 0]);  // back to the resume point
+});
+
+check('reset move-back is dropped at a trail boundary (move..move collapses)', () => {
+  // MOVE, DRAW, MOVE, DRAW: the reset after the first DRAW lands right before a
+  // MOVE to the next trail — the move-back would be a MOVE before a MOVE, so it
+  // must be omitted, leaving a single MOVE.
+  const ops = [
+    { cmd: CMD.MOVE, x: 0, y: 0 },
+    { cmd: CMD.DRAW, x: 1, y: 0 },
+    { cmd: CMD.MOVE, x: 5, y: 5 },
+    { cmd: CMD.DRAW, x: 6, y: 5 },
+  ];
+  const out = insertResets(ops, 1);
+  const i = out.findIndex(o => o.cmd === CMD.RESET);
+  assert.ok(i >= 0, 'expected a RESET');
+  // No move..move: the op after the RESET is the trail's own MOVE, not a back-move.
+  assert.strictEqual(out[i + 1].cmd, CMD.MOVE);
+  assert.deepStrictEqual([out[i + 1].x, out[i + 1].y], [5, 5]);
+  assert.notStrictEqual(out[i + 2] && out[i + 2].cmd, CMD.MOVE, 'no second consecutive MOVE');
 });
 
 console.log('\nALL', pass, 'CHECKS PASSED');
