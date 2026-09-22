@@ -114,16 +114,16 @@ check('RLE command byte layout + roundtrip', () => {
   const { points, edges } = make([[18, 16], [19, 16], [20, 16], [21, 16]], [[0, 1], [1, 2], [2, 3]]);
   const res = buildExport(points, edges, 32, 32, 'absolute', 0, false); // no merge: raw layout
   const b = res.bytes;
-  // first byte: MOVE, count 1
+  // first byte: MOVE, count 1 (stored as pairs - 1 => 0)
   assert.strictEqual(b[0] >> 6, CMD.MOVE);
-  assert.strictEqual(b[0] & 0x3f, 1);
+  assert.strictEqual(b[0] & 0x3f, 0);
   // coordinates are signed offsets from centre (16,16): move to (18,16)
   assert.strictEqual(fromInt8(b[1]), 0); // Y (16-16)
   assert.strictEqual(fromInt8(b[2]), 2); // X (18-16)
-  // then a DRAW run of 3
+  // then a DRAW run of 3 (stored as 2)
   const drawByte = b[3];
   assert.strictEqual(drawByte >> 6, CMD.DRAW);
-  assert.strictEqual(drawByte & 0x3f, 3);
+  assert.strictEqual(drawByte & 0x3f, 2);
 });
 
 check('first stroke always emits a leading MOVE from the origin', () => {
@@ -132,7 +132,7 @@ check('first stroke always emits a leading MOVE from the origin', () => {
   const { points, edges } = make([[16, 16], [17, 16], [18, 16]], [[0, 1], [1, 2]]);
   const res = buildExport(points, edges, 32, 32, 'absolute', 0);
   assert.strictEqual(res.bytes[0] >> 6, CMD.MOVE);
-  assert.strictEqual(res.bytes[0] & 0x3f, 1);
+  assert.strictEqual(res.bytes[0] & 0x3f, 0);   // count 1, stored as pairs - 1
   assert.strictEqual(fromInt8(res.bytes[1]), 0); // Y offset 0 (at centre)
   assert.strictEqual(fromInt8(res.bytes[2]), 0); // X offset 0
 });
@@ -169,7 +169,7 @@ check('RESET re-zeros without changing geometry (renderer round-trip)', () => {
   let i = 0, cy = 0, cx = 0, resets = 0;
   const visited = new Set();
   while (i < b.length) {
-    const cmd = b[i++], op = cmd & 0xc0, count = cmd & 0x3f;
+    const cmd = b[i++], op = cmd & 0xc0, count = (cmd & 0x3f) + 1;   // stored pairs - 1
     if (op === 0x00) { resets++; cy = 0; cx = 0; continue; }
     for (let k = 0; k < count; k++) {
       cy = fromInt8(b[i++]); cx = fromInt8(b[i++]);   // absolute offset from centre
@@ -196,7 +196,7 @@ check('relative export is native BIOS deltas (renderer round-trip)', () => {
   let i = 0, cy = 0, cx = 0, resets = 0;   // running absolute offset from centre
   const visited = new Set();
   while (i < b.length) {
-    const cmd = b[i++], op = cmd & 0xc0, count = cmd & 0x3f;
+    const cmd = b[i++], op = cmd & 0xc0, count = (cmd & 0x3f) + 1;   // stored pairs - 1
     if (op === 0x00) { resets++; cy = 0; cx = 0; continue; }  // RESET -> origin
     for (let k = 0; k < count; k++) {
       cy += fromInt8(b[i++]); cx += fromInt8(b[i++]);         // apply delta
@@ -276,6 +276,63 @@ check('reset move-back is dropped at a trail boundary (move..move collapses)', (
   assert.strictEqual(out[i + 1].cmd, CMD.MOVE);
   assert.deepStrictEqual([out[i + 1].x, out[i + 1].y], [5, 5]);
   assert.notStrictEqual(out[i + 2] && out[i + 2].cmd, CMD.MOVE, 'no second consecutive MOVE');
+});
+
+check('export scale multiplies relative deltas', () => {
+  const { points, edges } = make([[20, 18], [22, 18], [22, 21]], [[0, 1], [1, 2]]);
+  const res = buildExport(points, edges, 32, 32, 'relative', 0, false, 3);
+  const dis = disassemble(res.bytes, 'relative');
+  // scale 3 applied to each delta from the unscaled roundtrip test above
+  assert.ok(dis.includes('(-6,12)'), dis);  // MOVE  (-2,4) * 3
+  assert.ok(dis.includes('(-6,18)'), dis);  // DRAW  (-2,6) * 3
+  assert.ok(dis.includes('(-15,18)'), dis); // DRAW  (-5,6) * 3
+});
+
+check('export scale throws when a scaled delta exceeds ±127', () => {
+  // a 100-unit delta at scale 2 => 200, out of the signed ±127 window.
+  const { points, edges } = make([[16, 16], [116, 16]], [[0, 1]]);
+  assert.throws(() => buildExport(points, edges, 256, 256, 'relative', 0, false, 2), RangeError);
+});
+
+// A MOVE straight after a MOVE (move..move) or a RESET straight after a RESET
+// (reset..reset) is always redundant — the second one fully supersedes the
+// first — so the exporter must never emit either pair.
+check('random graphs: no two MOVE or two RESET ops in a row', () => {
+  let rng = 999;
+  const rand = () => (rng = (rng * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
+  for (let t = 0; t < 400; t++) {
+    const n = 2 + Math.floor(rand() * 8);
+    const coords = [];
+    const seen = new Set();
+    for (let i = 0; i < n; i++) {
+      let x, y, k;
+      do { x = Math.floor(rand() * 12); y = Math.floor(rand() * 12); k = x + ',' + y; } while (seen.has(k));
+      seen.add(k); coords.push([x, y]);
+    }
+    const pairs = [];
+    const eset = new Set();
+    const m = Math.floor(rand() * n);
+    for (let i = 0; i < m; i++) {
+      const a = Math.floor(rand() * n), b = Math.floor(rand() * n);
+      if (a === b) continue;
+      const key = a < b ? a + '_' + b : b + '_' + a;
+      if (eset.has(key)) continue;
+      eset.add(key); pairs.push([a, b]);
+    }
+    const { points, edges } = make(coords, pairs);
+    // resetN=1 forces the most RESET/move-back activity, the worst case for
+    // redundant pairs; try both coord modes and merge settings.
+    for (const mode of ['absolute', 'relative'])
+      for (const merge of [false, true]) {
+        const ops = buildExport(points, edges, 32, 32, mode, 1, merge).ops;
+        for (let i = 1; i < ops.length; i++) {
+          assert.ok(!(ops[i].cmd === CMD.MOVE && ops[i - 1].cmd === CMD.MOVE),
+            `t=${t} ${mode}/${merge}: MOVE follows MOVE at op ${i}`);
+          assert.ok(!(ops[i].cmd === CMD.RESET && ops[i - 1].cmd === CMD.RESET),
+            `t=${t} ${mode}/${merge}: RESET follows RESET at op ${i}`);
+        }
+      }
+  }
 });
 
 console.log('\nALL', pass, 'CHECKS PASSED');

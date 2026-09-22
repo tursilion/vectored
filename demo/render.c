@@ -27,14 +27,14 @@ void render_sprite(const uint8_t *p, uint8_t len)
         if (count == 0)
             continue;
 
-        if (op == 0x80) {           // DRAW: relative list straight to the BIOS
+        if (op == 0x80) {           // DRAW: relative list straight to the BIOS (takes count-1)
             draw_vl_a(count, p);
-            p += (uint8_t)(count << 1);
+            p += (uint8_t)((count+1) << 1);
         } else if (op == 0x40) {    // MOVE: relative reposition (unlit)
             do {
                 moveto_d(p[0], p[1]);
                 p += 2;
-            } while (--count);
+            } while ((--count) != 255);
         } else {                    // POINT (0xC0): relative move + dot
             do {
                 moveto_d(p[0], p[1]);

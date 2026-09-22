@@ -217,7 +217,7 @@ function optimizeStrokes(strokes, origin) {
   return bestOrder.map((si, k) => ({ stroke: strokes[si], orient: bestOrients[k] }));
 }
 
-function encodeRLE(ops, cx, cy, coordMode) {
+function encodeRLE(ops, cx, cy, coordMode, scale = 1) {
   // Y is negated on the way out: grid space is +Y down, the Vectrex is +Y up.
   const bytes = [];
   let px = cx, py = cy;
@@ -231,14 +231,22 @@ function encodeRLE(ops, cx, cy, coordMode) {
       i++;
       continue;
     }
+    // The count field stores (pairs - 1), so a byte can carry up to 64 pairs.
     let j = i;
-    while (j < ops.length && ops[j].cmd === cmd && (j - i) < 63) j++;
-    bytes.push((cmd << 6) | (j - i));
+    while (j < ops.length && ops[j].cmd === cmd && (j - i) < 64) j++;
+    bytes.push((cmd << 6) | (j - i - 1));
     for (let k = i; k < j; k++) {
       const o = ops[k];
       let Y, X;
-      if (coordMode === 'relative') { Y = py - o.y; X = o.x - px; py = o.y; px = o.x; }
-      else { Y = cy - o.y; X = o.x - cx; }
+      if (coordMode === 'relative') {
+        // Relative deltas are multiplied by the export scale and must stay
+        // within the signed range the renderer can apply per step.
+        Y = (py - o.y) * scale; X = (o.x - px) * scale; py = o.y; px = o.x;
+        if (Y > 127 || Y < -127 || X > 127 || X < -127)
+          throw new RangeError(
+            `scaled relative move (${Y},${X}) is out of range at scale ${scale}; ` +
+            `each delta must stay within ±127 — reduce the scale factor`);
+      } else { Y = cy - o.y; X = o.x - cx; }
       bytes.push(toInt8(Y), toInt8(X));
     }
     i = j;
@@ -350,7 +358,7 @@ function contractCollinear(points, edges) {
 }
 
 function buildExport(points, edges, gridW, gridH, coordMode, resetN = DEFAULT_RESET_N,
-                     mergeCollinear = true) {
+                     mergeCollinear = true, scale = 1) {
   const cx = gridW >> 1, cy = gridH >> 1;
   if (mergeCollinear) { const c = contractCollinear(points, edges); points = c.points; edges = c.edges; }
   const { trails, isolated, coord } = extractTrails(points, edges);
@@ -378,7 +386,7 @@ function buildExport(points, edges, gridW, gridH, coordMode, resetN = DEFAULT_RE
     }
   }
   const withResets = insertResets(ops, resetN);
-  const bytes = encodeRLE(withResets, cx, cy, coordMode);
+  const bytes = encodeRLE(withResets, cx, cy, coordMode, scale);
   return { bytes, ops: withResets, trails, isolated };
 }
 
@@ -391,7 +399,7 @@ function disassemble(bytes, coordMode) {
   let i = 0, oy = 0, ox = 0;
   while (i < bytes.length) {
     const b = bytes[i++];
-    const cmd = b >> 6, count = b & 0x3f;
+    const cmd = b >> 6, count = (b & 0x3f) + 1;   // stored as pairs - 1
     if (cmd === CMD.RESET) { oy = 0; ox = 0; lines.push('RESET'); continue; }
     const parts = [];
     for (let k = 0; k < count && i + 1 < bytes.length; k++) {
@@ -912,26 +920,40 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
     const mergeCollinear = $('#mergeCollinear').checked;
     let resetN = parseInt($('#resetN').value, 10);
     if (!Number.isFinite(resetN) || resetN < 0) resetN = 0;
+    let scale = parseInt($('#exportScale').value, 10);
+    if (!Number.isFinite(scale) || scale < 1) scale = 1;
+    $('#exportScale').value = scale;
     const cx = project.gridW >> 1, cy = project.gridH >> 1;
     const used = new Set();
     let src = `/* Vectored export — grid ${project.gridW}x${project.gridH}, origin (centre) ${cx},${cy}\n` +
       `   coords: ${coordMode === 'relative' ? 'signed Y,X deltas from previous point' : 'signed Y,X offsets from centre'} (Vectrex orientation, +Y up)\n` +
-      `   command byte: bits 7-6 = 00 RESET / 01 MOVE / 10 DRAW / 11 POINT, bits 5-0 = following Y,X pair count\n` +
+      `   command byte: bits 7-6 = 00 RESET / 01 MOVE / 10 DRAW / 11 POINT, bits 5-0 = (following Y,X pair count) - 1\n` +
+      `   scale x${scale}${coordMode === 'relative' ? ' applied to relative deltas' : ''}\n` +
       `   RESET (re-zero beam to origin) inserted every ${resetN || 'off'} drawn vectors/dots */\n\n`;
     let totalBytes = 0;
-    project.objects.forEach((o, i) => {
-      const res = buildExport(o.points, o.edges, project.gridW, project.gridH, coordMode, resetN, mergeCollinear);
-      let id = cIdentifier(o.name, 'object_' + (i + 1)), base = id, n = 2;
-      while (used.has(id)) id = base + '_' + (n++);
-      used.add(id);
-      totalBytes += res.bytes.length;
-      src += formatCArray(id, o, res.bytes) + '\n';
-    });
+    let ao, ares;
+    try {
+      project.objects.forEach((o, i) => {
+        const res = buildExport(o.points, o.edges, project.gridW, project.gridH, coordMode, resetN, mergeCollinear, scale);
+        let id = cIdentifier(o.name, 'object_' + (i + 1)), base = id, n = 2;
+        while (used.has(id)) id = base + '_' + (n++);
+        used.add(id);
+        totalBytes += res.bytes.length;
+        src += formatCArray(id, o, res.bytes) + '\n';
+      });
+      // disassembly of the active object for reference
+      ao = obj();
+      ares = buildExport(ao.points, ao.edges, project.gridW, project.gridH, coordMode, resetN, mergeCollinear, scale);
+    } catch (err) {
+      lastExportSource = '';
+      $('#hexOut').textContent = `/* export failed: ${err.message} */`;
+      $('#disOut').textContent = '';
+      $('#exportStats').textContent = err.message;
+      $('#exportPanel').classList.remove('hidden');
+      return;
+    }
     lastExportSource = src;
     $('#hexOut').textContent = src;
-    // disassembly of the active object for reference
-    const ao = obj();
-    const ares = buildExport(ao.points, ao.edges, project.gridW, project.gridH, coordMode, resetN, mergeCollinear);
     $('#disOut').textContent =
       `; active object: ${ao.name}\n` + (disassemble(ares.bytes, coordMode, cx, cy) || '(empty)');
     $('#exportStats').textContent = `${project.objects.length} object(s) · ${totalBytes} bytes total`;
@@ -940,6 +962,7 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
   $('#exportBtn').addEventListener('click', runExport);
   $('#coordMode').addEventListener('change', runExport);
   $('#resetN').addEventListener('change', runExport);
+  $('#exportScale').addEventListener('change', runExport);
   $('#mergeCollinear').addEventListener('change', runExport);
   $('#closeExport').addEventListener('click', () => $('#exportPanel').classList.add('hidden'));
   $('#downloadBin').addEventListener('click', () => {
