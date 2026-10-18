@@ -1,0 +1,121 @@
+; we assume intensity is set, and the beam turned off. We do reset0ref for you.
+; we have p pointer (x on entry), l len in byte (in b), screen x (stack+4), screen y (stack+3), and draw scale(stack+2), return(stack)
+; the BIOS uses the shift register, not the blank bit, so I guess I will too...
+; my_draw_sprite(p, len, sy, sx, scale) -- note Y is first!!
+_my_draw_sprite:
+
+; save off the regs we use
+    pshs y,u
+    
+; calculate the end address for easy comparison
+    leay b,x
+    pshs y
+
+; stack layout:
+;  draw scale       STACK+10
+;  screen X         STACK+9
+;  screen Y         STACK+8
+;  return,return    STACK+6
+;  U,U              STACK+4
+;  Y,Y              STACK+2
+;  end address(2)   STACK
+
+; Our first operation is always going to be "move to position"(sy,sx)
+; we'll come back here after a beam reset
+reposition:
+; the BIOS Reset0Ref is pretty much all needed, so we'll just keep calling it, we don't save much doing it inline.
+    jsr reset0ref       ; leaves ~BLANK and ~ZERO active, zeros beam, Y cap, and shift register. Confirmed it doesn't touch X.
+    ldd #0x7fee         ; prepare scale timer, blank and zero high again
+    sta *via_t1_cnt_lo  ; scale = 127
+    stb *via_cntl       ; disable blank and low
+    ldd 8,s             ; a=y, b=x from stack
+    ldy #0x0000         ; zero shift register
+    bsr move_beam       ; do the actual vector move back to sprite position
+    lda 10,s            ; get scale from the stack - this is the only place we need to reload it
+    sta *via_t1_cnt_lo  ; user scale restored
+    
+; fetch the next command
+fetch_next:
+; check if we're done first (that's one extra compare, but easier this way)
+    cmpx ,s             ; see if we're done
+    bmi notdone
+    puls y              ; our temporary address
+    puls y,u            ; the registers we pushed
+    rts                 ; we are done
+    
+notdone:
+    lda ,X+             ; gets the command byte and increment
+    bita #0x80          ; MSB set means draw lines or draw points, both include a count
+    bne type80          ; was not zero, so it was set
+    
+; so here we know it's either move, or reset
+    bita #0x40          ; move is 0x40, reset is 0x00
+    beq reposition      ; it was zero, so it's reset
+    
+; we are going to move, at the current scale  
+    ldd ,x++            ; a=y, b=x from list
+    ldy #0x0000         ; zero shift register
+    bsr move_beam       ; do the actual vector move
+    bra fetch_next      ; go get the next command
+    
+type80:
+; both type80 commands have a count - one is dots, and one is lines. The count is -1, meaning 0 means draw one
+; probably simpler and a little quicker with so few regs to dupe the code so we don't need to store the type
+    bita #0x40          ; draw is 0x80, point is 0xc0
+    beq typedraw
+    
+; we're drawing points - this used to call moveto and dot_here(), we'll do similar
+    anda #0x3f          ; extract the count
+    sta vec_count       ; use the bios defined count address
+
+dotlp:
+    ldd ,x++            ; a=y, b=x from list
+    ldy #0x0000         ; zero shift register
+    bsr move_beam       ; do the actual vector move
+    lda #0xff           ; going to turn on the beam
+    sta *via_shift_reg  ; now it's on
+    ldb vec_dot_dwell   ; configured dwell time (this is only 5 by default)
+dotdelay:
+    decb
+    bne dotdelay        ; spinlooop
+    stb *via_shift_reg  ; zero the shift register (we know B just hit zero)
+    dec vec_count
+    bpl dotlp           ; keep going till we hit -1
+    bra fetch_next      ; done the dot list
+    
+; we're drawing vectors - pretty much the same loop as dots but we turn the beam on and don't dwell
+typedraw:
+    anda #0x3f          ; extract the count
+    sta vec_count       ; use the bios defined count address
+linelp:
+    ldd ,x++            ; a=y, b=x from list
+    ldy #0x00ff         ; solid beam
+    bsr move_beam       ; do the actual vector move
+    dec vec_count
+    bpl linelp          ; keep going till we hit -1
+    bra fetch_next      ; done the vector list
+
+; Handles a beam move: a = y offset, b = x offset, y = shift reg in lsb, msb MUST BE ZERO.
+; you are assumed to have set scale in via_t1_cnt_lo and brightness in the Z output, and the shift register to 00 or FF.
+; shift register is zeroed on return (otherwise the points are VERY visible on hardware)
+move_beam:
+    sta *via_port_a         ; send y to dac                                                                                 4
+
+    clr  *via_port_b        ; enable mux 00 (ramp doesn't matter since the timer bit isn't set)                             6
+    nop                     ; charge the Y cap                                                                              1
+    nop
+    inc  *via_port_b        ; disable mux                                                                                   6
+                
+    stb  *via_port_a        ; send x to dac (no cap on this pin)                                                            4
+    tfr  y,d                ; get the shift register value into an 8 bit register                                           6
+    stb  *via_shift_reg     ; and set it                                                                                    4
+    sta  *via_t1_cnt_hi     ; set t1h - just a zero - this starts the timer and enables the move                            4
+
+; wait for the timer to expire. Note the line length will be correct, despite the 7 cycle resolution (timer stops integration!)
+    ldd #0x0040             ; b-reg = t1 interrupt bit, A is just a convenient 0 to turn off the beam with (8-24 left)      3
+movelp:
+    bitb *via_int_flags     ; wait for t1 to time out (this will loop 1-4 times for sprites, overflow 0-6 cycles)           4
+    beq  movelp             ;                                                                                               3
+
+    sta *via_shift_reg      ; zero the shift register while we work out the next point
+    rts                     ;                                                                                               5
