@@ -288,10 +288,30 @@ check('export scale multiplies relative deltas', () => {
   assert.ok(dis.includes('(-15,18)'), dis); // DRAW  (-5,6) * 3
 });
 
-check('export scale throws when a scaled delta exceeds ±127', () => {
-  // a 100-unit delta at scale 2 => 200, out of the signed ±127 window.
+check('export scale splits a scaled delta beyond ±127 into equal parts', () => {
+  // a 100-unit delta at scale 2 => 200, out of the signed ±127 window: the
+  // MOVE from the centre (-112*2) and the DRAW (200) both split in two.
   const { points, edges } = make([[16, 16], [116, 16]], [[0, 1]]);
-  assert.throws(() => buildExport(points, edges, 256, 256, 'relative', 0, false, 2), RangeError);
+  const res = buildExport(points, edges, 256, 256, 'relative', 0, false, 2);
+  assert.strictEqual(res.splits.length, 2);
+  assert.ok(res.splits.every(sp => sp.parts === 2));
+  const dis = disassemble(res.bytes, 'relative');
+  assert.ok(dis.includes('MOVE x2  (112,-112) (224,-224)'), dis);
+  assert.ok(dis.includes('DRAW x2  (224,-124) (224,-24)'), dis);
+  for (const b of res.bytes.slice(1)) assert.notStrictEqual(fromInt8(b), -128);
+});
+
+check('far POINT splits into MOVEs then the POINT', () => {
+  const points = [{ id: 1, x: 0, y: 128 }];
+  const res = buildExport(points, [], 256, 256, 'relative', 0, false, 1);
+  const dis = disassemble(res.bytes, 'relative');
+  assert.strictEqual(res.splits.length, 1);
+  assert.ok(/^MOVE x1 .*\nPOINT x1  \(0,-128\)$/.test(dis), dis);
+});
+
+check('no splits when every step fits', () => {
+  const { points, edges } = make([[20, 18], [22, 18]], [[0, 1]]);
+  assert.strictEqual(buildExport(points, edges, 32, 32, 'relative', 0, false, 1).splits.length, 0);
 });
 
 // A MOVE straight after a MOVE (move..move) or a RESET straight after a RESET

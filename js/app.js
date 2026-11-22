@@ -217,38 +217,48 @@ function optimizeStrokes(strokes, origin) {
   return bestOrder.map((si, k) => ({ stroke: strokes[si], orient: bestOrients[k] }));
 }
 
-function encodeRLE(ops, cx, cy, coordMode, scale = 1) {
+/* Encode ops as command bytes + (Y,X) pairs.  In relative mode a scaled step
+ * wider than ±127 is split into equal sub-steps of the same command (a far
+ * POINT becomes MOVEs then the POINT); each split is recorded in `splits`. */
+function encodeRLE(ops, cx, cy, coordMode, scale = 1, splits = null) {
   // Y is negated on the way out: grid space is +Y down, the Vectrex is +Y up.
-  const bytes = [];
+  const pairs = [];   // { cmd, Y, X } — RESET has no operands
   let px = cx, py = cy;
-  let i = 0;
-  while (i < ops.length) {
-    const cmd = ops[i].cmd;
-    if (cmd === CMD.RESET) {
+  for (const o of ops) {
+    if (o.cmd === CMD.RESET) {
       // RESET carries no operands; the beam is back at the object origin.
-      bytes.push(CMD.RESET << 6);
+      pairs.push({ cmd: CMD.RESET });
       px = cx; py = cy;
-      i++;
       continue;
     }
+    if (coordMode !== 'relative') { pairs.push({ cmd: o.cmd, Y: cy - o.y, X: o.x - cx }); continue; }
+    // Relative deltas are multiplied by the export scale and must stay
+    // within the signed range the renderer can apply per step.
+    const Y = (py - o.y) * scale, X = (o.x - px) * scale;
+    const n = Math.max(1, Math.ceil(Math.max(Math.abs(Y), Math.abs(X)) / 127));
+    if (n > 1 && splits)
+      splits.push({ cmd: o.cmd, from: { x: px, y: py }, to: { x: o.x, y: o.y }, Y, X, parts: n });
+    // Cumulative rounding keeps every part within ±127 and lands exactly on the target.
+    let ay = 0, ax = 0;
+    for (let k = 1; k <= n; k++) {
+      const ty = Math.round(Y * k / n), tx = Math.round(X * k / n);
+      const cmd = (o.cmd === CMD.POINT && k < n) ? CMD.MOVE : o.cmd;
+      pairs.push({ cmd, Y: ty - ay, X: tx - ax });
+      ay = ty; ax = tx;
+    }
+    py = o.y; px = o.x;
+  }
+
+  const bytes = [];
+  let i = 0;
+  while (i < pairs.length) {
+    const cmd = pairs[i].cmd;
+    if (cmd === CMD.RESET) { bytes.push(CMD.RESET << 6); i++; continue; }
     // The count field stores (pairs - 1), so a byte can carry up to 64 pairs.
     let j = i;
-    while (j < ops.length && ops[j].cmd === cmd && (j - i) < 64) j++;
+    while (j < pairs.length && pairs[j].cmd === cmd && (j - i) < 64) j++;
     bytes.push((cmd << 6) | (j - i - 1));
-    for (let k = i; k < j; k++) {
-      const o = ops[k];
-      let Y, X;
-      if (coordMode === 'relative') {
-        // Relative deltas are multiplied by the export scale and must stay
-        // within the signed range the renderer can apply per step.
-        Y = (py - o.y) * scale; X = (o.x - px) * scale; py = o.y; px = o.x;
-        if (Y > 127 || Y < -127 || X > 127 || X < -127)
-          throw new RangeError(
-            `scaled relative move (${Y},${X}) is out of range at scale ${scale}; ` +
-            `each delta must stay within ±127 — reduce the scale factor`);
-      } else { Y = cy - o.y; X = o.x - cx; }
-      bytes.push(toInt8(Y), toInt8(X));
-    }
+    for (let k = i; k < j; k++) bytes.push(toInt8(pairs[k].Y), toInt8(pairs[k].X));
     i = j;
   }
   return bytes;
@@ -365,7 +375,7 @@ function buildExport(points, edges, gridW, gridH, coordMode, resetN = DEFAULT_RE
   const strokes = [];
   for (const t of trails) strokes.push({ kind: 'trail', pts: t.map(id => coord.get(id)) });
   for (const id of isolated) strokes.push({ kind: 'point', pt: coord.get(id) });
-  if (strokes.length === 0) return { bytes: [], ops: [], trails, isolated };
+  if (strokes.length === 0) return { bytes: [], ops: [], trails, isolated, splits: [] };
 
   const ordered = optimizeStrokes(strokes, { x: cx, y: cy });
   const ops = [];
@@ -386,8 +396,9 @@ function buildExport(points, edges, gridW, gridH, coordMode, resetN = DEFAULT_RE
     }
   }
   const withResets = insertResets(ops, resetN);
-  const bytes = encodeRLE(withResets, cx, cy, coordMode, scale);
-  return { bytes, ops: withResets, trails, isolated };
+  const splits = [];
+  const bytes = encodeRLE(withResets, cx, cy, coordMode, scale, splits);
+  return { bytes, ops: withResets, trails, isolated, splits };
 }
 
 function disassemble(bytes, coordMode) {
@@ -932,13 +943,27 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
       `   RESET (re-zero beam to origin) inserted every ${resetN || 'off'} drawn vectors/dots */\n\n`;
     let totalBytes = 0;
     let ao, ares;
+    const warnings = [];   // { name, splits }
+    const cmdName = { [CMD.MOVE]: 'MOVE', [CMD.DRAW]: 'DRAW', [CMD.POINT]: 'POINT' };
     try {
       project.objects.forEach((o, i) => {
-        const res = buildExport(o.points, o.edges, project.gridW, project.gridH, coordMode, resetN, mergeCollinear, scale);
+        let res;
+        try {
+          res = buildExport(o.points, o.edges, project.gridW, project.gridH, coordMode, resetN, mergeCollinear, scale);
+        } catch (err) {
+          err.message = `object "${o.name}": ${err.message}`;
+          throw err;
+        }
         let id = cIdentifier(o.name, 'object_' + (i + 1)), base = id, n = 2;
         while (used.has(id)) id = base + '_' + (n++);
         used.add(id);
         totalBytes += res.bytes.length;
+        if (res.splits.length) {
+          warnings.push({ name: o.name, splits: res.splits });
+          src += `/* WARNING: ${res.splits.length} step(s) exceeded ±127 and were split:\n` +
+            res.splits.map(sp => `     ${cmdName[sp.cmd]} (${sp.from.x},${sp.from.y}) -> (${sp.to.x},${sp.to.y}) ` +
+              `delta (${sp.Y},${sp.X}) -> ${sp.parts} parts`).join('\n') + ' */\n';
+        }
         src += formatCArray(id, o, res.bytes) + '\n';
       });
       // disassembly of the active object for reference
@@ -949,6 +974,7 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
       $('#hexOut').textContent = `/* export failed: ${err.message} */`;
       $('#disOut').textContent = '';
       $('#exportStats').textContent = err.message;
+      $('#exportStats').classList.add('warn');
       $('#exportPanel').classList.remove('hidden');
       return;
     }
@@ -956,7 +982,11 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
     $('#hexOut').textContent = src;
     $('#disOut').textContent =
       `; active object: ${ao.name}\n` + (disassemble(ares.bytes, coordMode, cx, cy) || '(empty)');
-    $('#exportStats').textContent = `${project.objects.length} object(s) · ${totalBytes} bytes total`;
+    const added = warnings.reduce((t, w) => t + w.splits.reduce((u, sp) => u + sp.parts - 1, 0), 0);
+    $('#exportStats').textContent = `${project.objects.length} object(s) · ${totalBytes} bytes total` +
+      (warnings.length ? ` · ⚠ ${added} point(s) added splitting long steps in ` +
+        warnings.map(w => `${w.name} (${w.splits.length})`).join(', ') : '');
+    $('#exportStats').classList.toggle('warn', warnings.length > 0);
     $('#exportPanel').classList.remove('hidden');
   }
   $('#exportBtn').addEventListener('click', runExport);

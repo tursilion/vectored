@@ -50,6 +50,7 @@ main { flex: 1; display: flex; min-height: 0; }
 .row { margin-bottom: 8px; }
 .full { width: 100%; }
 .muted { color: #6b7385; }
+#exportStats.warn { color: #e0a030; }
 .hint { color: #5c6474; font-size: 11px; margin: 6px 0; }
 .ctl { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
 .ctl.inline { display: inline-flex; }
